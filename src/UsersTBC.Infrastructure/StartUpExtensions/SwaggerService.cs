@@ -17,6 +17,7 @@ namespace ProductTermsControl.Insfrastructure.StartUpExtensions
         {
             if (env.IsDevelopment())
             {
+
                 services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo
@@ -25,45 +26,12 @@ namespace ProductTermsControl.Insfrastructure.StartUpExtensions
                         Title = "TBC Users",
                         Description = ""
                     });
+                    c.DocumentFilter<SwaggerEnumDocumentFilter>();
                     
-                    c.SchemaFilter<SwaggerEnumSchemaFilter>();
-
-                    /*c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                    {
-                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey,
-                        Scheme = "Bearer"
-                    });*/
-
-                    /*c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                },
-                                Scheme = "oauth2",
-                                Name = "Bearer",
-                                In = ParameterLocation.Header,
-                            },
-                            new List<string>()
-                            // new string[] { }
-                        }
-                    });*/
-
-
-
-                    // Set the comments path for the Swagger JSON and UI.
-                    //var xmlFile = $"ProductTermsControl.WebApi.xml";
                     var xmlPath = $@"{env.ContentRootPath}/UsersTBC.WebAPI.xml";
-                    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    
                     c.IncludeXmlComments(xmlPath);
-                    //c.DescribeAllEnumsAsStrings();
+                    
                 });
             }
 

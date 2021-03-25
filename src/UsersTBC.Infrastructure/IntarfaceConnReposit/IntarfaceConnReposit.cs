@@ -4,7 +4,9 @@ using UsersTBC.Domain.Interfaces;
 using UsersTBC.Application.Paging.Services;
 using UsersTBC.Application.ApplicationDbContext;
 using UsersTBC.Insfrastructure.Helpers;
-
+using UsersTBC.Insfrastructure.Repository;
+using UsersTBC.Application.Services.Intarface;
+using UsersTBC.Application.Services.Repository;
 
 namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
 {
@@ -13,7 +15,8 @@ namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
         public static void RegisterServices(IServiceCollection services)
         {
             //services.AddScoped<IRepository<UserReference>, Repository<UserReference>>();
-           
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUserService, UserService>();
 
             //for paging
             services.AddHttpContextAccessor();

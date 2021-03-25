@@ -4,9 +4,11 @@ using System.Text;
 
 namespace UsersTBC.Domain.Enum
 {
-    public enum Gender
+    public enum RelatedType
     {
-        Male = 1,
-        Female = 2   
+        Colleague = 1,
+        Acquaintance = 2,
+        Relative = 3,
+        Other = 4
     }
 }

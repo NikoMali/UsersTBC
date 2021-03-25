@@ -17,7 +17,7 @@ namespace UsersTBC.Infrastructure.Helpers
                 model.Enum.Clear();
                 Enum.GetNames(context.Type)
                     .ToList()
-                    .ForEach(n => model.Enum.Add(new OpenApiString(n)));
+                    .ForEach(name => model.Enum.Add(new OpenApiString($"{Convert.ToInt64(Enum.Parse(context.Type, name))} - {name}")));
             }
         }
     }

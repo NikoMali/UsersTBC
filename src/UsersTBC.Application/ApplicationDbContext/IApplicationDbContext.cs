@@ -12,6 +12,10 @@ namespace UsersTBC.Application.ApplicationDbContext
     public interface IApplicationDbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<UserMobileNumber> UserMobileNumbers { get; set; }
+        public DbSet<UseRelated> UseRelateds { get; set; }
 
         Task<int> SaveChangesAsync();
     }

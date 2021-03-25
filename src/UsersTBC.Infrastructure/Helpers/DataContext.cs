@@ -28,6 +28,10 @@ namespace UsersTBC.Insfrastructure.Helpers
         }
         //Main Migration and Invoke PM Code: Add-Migration <Name > -Context DataContext -Project ProductTermsControl.Insfrastructure
         public DbSet<User> Users { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<UserMobileNumber> UserMobileNumbers { get; set; }
+        public DbSet<UseRelated> UseRelateds { get; set; }
 
 
         public async Task<int> SaveChangesAsync()
