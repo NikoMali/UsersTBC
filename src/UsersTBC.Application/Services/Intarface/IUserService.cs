@@ -11,8 +11,12 @@ namespace UsersTBC.Application.Services.Intarface
     {
 
         Task<IEnumerable<UserResponseModel>> GetAll();
-        Task<UserResponseModel> Create(UserRequestModel userRequestModel);
-
+        Task<string> Create(UserRequestModel userRequestModel);
+        Task<string> UpdateUser(UserUpdateRequestModel userUpdateRequestModel);
+        Task<string> AddOrUpdateImage(UserImageRequestModel userImageRequestModel);
+        Task<string> AddOrUpdateUserRelated(UserRelatedRequestModel userRelatedRequestModel);
+        Task<string> RemoveUser(int userId);
+        Task<UserResponseModel> GetUser(int userId);
 
     }
 }

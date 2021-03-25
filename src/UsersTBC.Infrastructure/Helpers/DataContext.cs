@@ -34,22 +34,34 @@ namespace UsersTBC.Insfrastructure.Helpers
         public DbSet<UseRelated> UseRelateds { get; set; }
 
 
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            ModifyDetectChange();
+
+            return await base.SaveChangesAsync();
+        }
         public async Task<int> SaveChangesAsync()
+        {
+            ModifyDetectChange();
+
+            return await base.SaveChangesAsync();
+        }
+        private void ModifyDetectChange()
         {
             var entries = ChangeTracker.Entries();
             var Now = DateTime.Now;
 
             foreach (var entry in entries)
             {
-                
+
                 if (entry.Entity is BaseEntity trackable)
                 {
                     switch (entry.State)
                     {
                         case EntityState.Modified:
-                           
+
                             trackable.UpdateDate = Now;
-                            
+
                             entry.Property("CreateDate").IsModified = false;
                             trackable.CreateDate = DateTime.Parse(entry.GetDatabaseValues().GetValue<object>("CreateDate").ToString());
 
@@ -65,17 +77,13 @@ namespace UsersTBC.Insfrastructure.Helpers
                             break;
 
                         case EntityState.Added:
-                           
+
                             trackable.CreateDate = Now;
                             trackable.UpdateDate = Now;
                             break;
                     }
                 }
             }
-        
-
-
-            return await base.SaveChangesAsync();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

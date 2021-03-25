@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
-using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.Application.Models
 {
-    public class UserResponseModel
+    public class UserUpdateRequestModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
+        [EnumDataType(typeof(Gender), ErrorMessage = "type value doesn't exist within enum")]
         public Gender Gender { get; set; }
         public int CityId { get; set; }
-        public CityModel City { get; set; }
-        public List<UserMobileNumberModel> UserMobileNumbers { get; set; }
-        public List<UserImagesResponseModel> Images { get; set; }
-        public List<UserRelatedResponseModel> userRelateds { get; set; }
+        public List<UserMobileNumberRequestModel> UserMobileNumbers { get; set; }
+
     }
 }

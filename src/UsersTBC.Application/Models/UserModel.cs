@@ -6,7 +6,7 @@ using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.Application.Models
 {
-    public class UserResponseModel
+    public class UserModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,8 +15,5 @@ namespace UsersTBC.Application.Models
         public Gender Gender { get; set; }
         public int CityId { get; set; }
         public CityModel City { get; set; }
-        public List<UserMobileNumberModel> UserMobileNumbers { get; set; }
-        public List<UserImagesResponseModel> Images { get; set; }
-        public List<UserRelatedResponseModel> userRelateds { get; set; }
     }
 }

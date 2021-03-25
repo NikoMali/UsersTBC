@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Converters;
 using ProductTermsControl.Insfrastructure.StartUpExtensions;
 using System;
 using UsersTBC.Insfrastructure.Helpers;
@@ -38,9 +39,17 @@ namespace UsersTBC.WebAPI
 
 
             services.AddCors();
-            services.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllers()
+            .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            )
+            //.AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()))
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            }); ;
+            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             RegisterServices(services);
             services.AddCustomizedSwagger(_env);

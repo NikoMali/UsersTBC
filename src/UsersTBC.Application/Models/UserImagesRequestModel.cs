@@ -6,9 +6,10 @@ using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.Application.Models
 {
-    public class UserImageModel
+    public class UserImageRequestModel
     {
-        public string DocumentName { get; set; }
-        public string ImageBinaryData { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public IFormFile file { get; set; }
     }
 }

@@ -15,14 +15,14 @@ namespace UsersTBC.Application.Services.Repository
 {
     public class UserService : IUserService 
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IRepository<UserMobileNumber> _userMobileRepository;
         private readonly IRepository<UserImage> _userImageRepository;
         private readonly IRepository<UseRelated> _userRelatedRepository;
         private readonly IHostingEnvironment _hostingEnvironment;
         private IMapper _mapper;
 
-        public UserService(IRepository<User> userRepository,
+        public UserService(IUserRepository userRepository,
                             IRepository<UserMobileNumber> userMobileRepository,
                             IRepository<UserImage> userImageRepository,
                             IRepository<UseRelated> userRelatedRepository,
@@ -42,23 +42,23 @@ namespace UsersTBC.Application.Services.Repository
 
         public async Task<IEnumerable<UserResponseModel>> GetAll()
         {
-            var model = await _userRepository.GetAll();
+            var model = await _userRepository.ListAllAsync();
             return _mapper.Map<List<UserResponseModel>>(model);
         }
 
-        public async Task<UserResponseModel> Create(UserRequestModel userRequestModel)
+        public async Task<string> Create(UserRequestModel userRequestModel)
         {
             var user = _mapper.Map<User>(userRequestModel);
             var mobileNumber = _mapper.Map<List<UserMobileNumber>>(userRequestModel.UserMobileNumbers);
             var images = _mapper.Map<List<UserImage>>(userRequestModel.Images);
             var userRelateds = _mapper.Map<List<UseRelated>>(userRequestModel.userRelateds);
 
-            await _userRepository.Add(user);
+            await _userRepository.AddAsync(user);
 
             if (mobileNumber.Count > 0)
             {
                 mobileNumber.ForEach(x => x.AssignedUserId(user.Id));
-                mobileNumber.ForEach(x => _userMobileRepository.Add(x).Wait());
+                mobileNumber.ForEach(x => _userMobileRepository.AddAsync(x).Wait());
             }
 
             /*if (images.Count > 0)
@@ -71,46 +71,167 @@ namespace UsersTBC.Application.Services.Repository
             if (userRelateds.Count > 0)
             {
                 userRelateds.ForEach(x => x.AssignedUserId(user.Id));
-                userRelateds.ForEach(x => _userRelatedRepository.Add(x).Wait());
+                userRelateds.ForEach(x => _userRelatedRepository.AddAsync(x).Wait());
             }
 
-            var model = await _userRepository.GetAll();
-            return _mapper.Map<UserResponseModel>(model[0]);
+            
+            return "SUCCESS";
         }
+
+        public async Task<string> UpdateUser(UserUpdateRequestModel userUpdateRequestModel)
+        {
+            try
+            {
+                var user = _mapper.Map<User>(userUpdateRequestModel);
+                var userMobile = _mapper.Map<List<UserMobileNumber>>(userUpdateRequestModel.UserMobileNumbers);
+                await _userRepository.UpdateAsync(user);
+                await _userMobileRepository.UpdateRangeAsync(userMobile);
+                return "SUCCESS";
+            }
+            catch (Exception)
+            {
+
+                return "FAILED";
+            }
+        }
+
+        public async Task<string> AddOrUpdateImage(UserImageRequestModel userImageRequestModel)
+        {
+            try
+            {
+                string fileName, filePath;
+                var userImage = new UserImage();
+                userImage.UserId = userImageRequestModel.UserId;
+                if (userImageRequestModel.Id == 0)
+                {
+                    UploadedFile(null,userImageRequestModel.file, out fileName, out filePath);
+                    userImage.DocumentName = fileName;
+                    userImage.DocumentPath = filePath;
+                    await _userImageRepository.AddAsync(userImage);
+                    return "SUCCESS";
+                }
+                else
+                {
+                    userImage.Id = userImageRequestModel.Id;
+                    UploadedFile(null, userImageRequestModel.file, out fileName, out filePath);
+                    userImage.DocumentName = fileName;
+                    userImage.DocumentPath = filePath;
+                    await _userImageRepository.UpdateAsync(userImage);
+                    return "SUCCESS";
+                }
+            }
+            catch (Exception)
+            {
+
+                return "FAILED";
+            }
+            
+        }
+        public async Task<string> AddOrUpdateUserRelated(UserRelatedRequestModel userRelatedRequestModel)
+        {
+            try
+            {
+                var userRelated = _mapper.Map<UseRelated>(userRelatedRequestModel);
+                if (userRelated.Id == 0)
+                {
+                    await _userRelatedRepository.AddAsync(userRelated);
+                    return "SUCCESS";
+                }
+                else
+                {
+                    await _userRelatedRepository.UpdateAsync(userRelated);
+                    return "SUCCESS";
+                }
+            }
+            catch (Exception)
+            {
+
+                return "FAILED";
+            }
+           
+        }
+
         private async Task UserSaveImages(List<UserImageModel> userImages, int userId)
         {
             var userImage = new UserImage(); 
+            string fileName, filePath;
             if (userImages.Count>0)
             {
                 for (int i = 0; i < userImages.Count; i++)
                 {
-                    Byte[] bytes = Convert.FromBase64String(userImages[i].Image);
+                    Byte[] bytes = Convert.FromBase64String(userImages[i].ImageBinaryData);
                     //IFormFile formFile = File.WriteAllBytes(path, bytes);
-                    userImage.DocumentPath = await UploadedFile(bytes);
-                    userImage.DocumentName = userImages[i].DocumentName;
+                    UploadedFile(bytes, null, out fileName, out filePath);
+                    userImage.DocumentPath = filePath;
+                    userImage.DocumentName = fileName;
                     userImage.UserId = userId;
-                    await _userImageRepository.Add(userImage);
+                    await _userImageRepository.AddAsync(userImage);
                 }
             }
             
         }
 
-        private Task<string> UploadedFile(Byte[] file)
+        public async Task<string> RemoveUser(int userId)
         {
+            try
+            {
+                await _userImageRepository.RemoveRangeAsync(await _userImageRepository.FindAll(x => x.UserId == userId));
+                await _userMobileRepository.RemoveRangeAsync(await _userMobileRepository.FindAll(x => x.UserId == userId));
+                await _userRelatedRepository.RemoveRangeAsync(await _userRelatedRepository.FindAll(x => x.UserId == userId));
+                await _userRepository.DeleteAsync(await _userRepository.First(x => x.Id == userId));
+                return "SUCCESS";
+            }
+            catch (Exception)
+            {
 
+                return "FAILED";
+            }
+            
+        }
+        public async Task<UserResponseModel> GetUser(int userId)
+        {
+            var user = await _userRepository.GetUser(userId);
+            var userModel = _mapper.Map<UserResponseModel>(user);
+            userModel.UserMobileNumbers = _mapper.Map<List<UserMobileNumberModel>>(await _userMobileRepository.FindAll(x => x.UserId == userId));
+            userModel.Images = _mapper.Map<List<UserImagesResponseModel>>(await _userImageRepository.FindAll(x => x.UserId == userId));
+            userModel.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(await _userRepository.GetRelatedUsersByUserId(userId));
+            return userModel;
+        }
+        
+
+        private void UploadedFile(Byte[] file, IFormFile formFile, out string fileName, out string filePath)
+        {
             string uniqueFileName = null;
+            var folderName = "images";
+            string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, folderName);
             if (file != null)
             {
-                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                
                 uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                File.WriteAllBytes(filePath, file);
+                string filePathes = Path.Combine(uploadsFolder, uniqueFileName);
+                File.WriteAllBytes(filePathes, file);
                 /*using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     file.CopyTo(fileStream);
                 }*/
+
+                fileName = uniqueFileName;
+                filePath = folderName + "/"+ uniqueFileName;
             }
-            return Task.FromResult(uniqueFileName);
+            else
+            {
+                
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
+                string filePathes = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePathes, FileMode.Create))
+                {
+                    formFile.CopyTo(fileStream);
+                }
+
+                fileName = uniqueFileName;
+                filePath = folderName + "/" + uniqueFileName;
+            }
         }
         /* private  void Add<T>(List<T> list, IRepository<T> rep) where T : class
          {

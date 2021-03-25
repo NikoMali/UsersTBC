@@ -6,9 +6,9 @@ using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.Application.Models
 {
-    public class UserImageModel
+    public class UserImagesResponseModel
     {
         public string DocumentName { get; set; }
-        public string ImageBinaryData { get; set; }
+        public string DocumentPath { get; set; }
     }
 }

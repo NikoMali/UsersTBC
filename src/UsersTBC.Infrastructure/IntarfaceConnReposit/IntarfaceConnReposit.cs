@@ -17,6 +17,7 @@ namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
             //services.AddScoped<IRepository<UserReference>, Repository<UserReference>>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             //for paging
             services.AddHttpContextAccessor();

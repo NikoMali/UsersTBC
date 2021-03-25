@@ -27,7 +27,8 @@ namespace ProductTermsControl.Insfrastructure.StartUpExtensions
                         Description = ""
                     });
                     c.DocumentFilter<SwaggerEnumDocumentFilter>();
-                    
+                    //c.OperationFilter<AddFileParamTypesOperationFilter>();
+
                     var xmlPath = $@"{env.ContentRootPath}/UsersTBC.WebAPI.xml";
                     
                     c.IncludeXmlComments(xmlPath);

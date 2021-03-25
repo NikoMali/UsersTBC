@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="HelperModel\" />
+    <PackageReference Include="Ardalis.Specification" Version="4.1.0" />
   </ItemGroup>
 
 </Project>

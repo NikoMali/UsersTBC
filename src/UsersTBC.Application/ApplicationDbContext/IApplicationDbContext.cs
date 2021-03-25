@@ -18,5 +18,6 @@ namespace UsersTBC.Application.ApplicationDbContext
         public DbSet<UseRelated> UseRelateds { get; set; }
 
         Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
