@@ -6,7 +6,7 @@ using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.Domain.HelperModel
 {
-    public class UserFullInfo
+    public class UserWithRelatedPerson
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,11 +19,20 @@ namespace UsersTBC.Domain.HelperModel
         public int CityId { get; set; }
         public City City { get; set; }
 
-        public List<UserMobileNumber> userMobileNumbers { get; set; }
-        public List<UserImage> userImages { get; set; }
-        public List<UseRelated> useRelateds { get; set; }
-
-        public UserFullInfo() { }
         
+        public IEnumerable<UseRelated> useRelateds { get; set; }
+
+        public UserWithRelatedPerson() { }
+        public UserWithRelatedPerson(User user, IEnumerable<UseRelated> useRelated) 
+        {
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            PersonalNumber = user.PersonalNumber;
+            BirthDate = user.BirthDate;
+            Gender = user.Gender;
+            CityId = user.CityId;
+            useRelateds = useRelated;
+        }
+
     }
 }

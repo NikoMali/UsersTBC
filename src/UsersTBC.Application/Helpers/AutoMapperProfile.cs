@@ -1,6 +1,7 @@
 using AutoMapper;
 using UsersTBC.Application.Models;
 using UsersTBC.Domain.Entities;
+using UsersTBC.Domain.HelperModel;
 
 namespace ProductTermsControl.WebAPI.Helpers
 {
@@ -16,7 +17,11 @@ namespace ProductTermsControl.WebAPI.Helpers
             CreateMap<User, UserModel>();
             CreateMap<UserUpdateRequestModel, User>();
             CreateMap<User, UserUpdateRequestModel>();
+            CreateMap<SearchDetailModel, User>();
+            CreateMap<User, SearchDetailModel>();
 
+            CreateMap<UserResponseModel, UserWithRelatedPerson>();
+            CreateMap<UserWithRelatedPerson, UserResponseModel>();
 
             CreateMap<City, CityModel>();
             CreateMap<CityModel, City>();

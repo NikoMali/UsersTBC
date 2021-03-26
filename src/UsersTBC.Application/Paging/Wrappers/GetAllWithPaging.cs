@@ -5,12 +5,12 @@ using System.Text;
 
 namespace UsersTBC.Application.Helpers
 {
-    public class GetAllWithPaging<T>
+    public class GetAllWithPaging<T,TE>
     {
-        public PaginationFilter PaginationFilter { get; set; }
+        public TE PaginationFilter { get; set; } 
         public List<T> entities { get; set; }
         public int totalRecords { get; set; }
-        public GetAllWithPaging(PaginationFilter PaginationFilter, List<T> entities, int totalRecords)
+        public GetAllWithPaging(TE PaginationFilter, List<T> entities, int totalRecords)
         {
             this.PaginationFilter = PaginationFilter;
             this.entities = entities;

@@ -10,6 +10,9 @@ using UsersTBC.Application.Models;
 using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Interfaces;
+using UsersTBC.Domain.Enum;
+using UsersTBC.Application.Filter;
+using UsersTBC.Application.Helpers;
 
 namespace UsersTBC.Application.Services.Repository
 {
@@ -197,7 +200,50 @@ namespace UsersTBC.Application.Services.Repository
             userModel.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(await _userRepository.GetRelatedUsersByUserId(userId));
             return userModel;
         }
-        
+
+
+        public async Task<List<UserResponseModel>> UsersWithRelatedPersons(RelatedType relatedTypeId)
+        {
+            var usersModel = new List<UserResponseModel>();
+            var users = await _userRepository.UsersWithRelatedPersons(relatedTypeId);
+
+            users.ForEach(x =>
+            {
+                var user = _mapper.Map<UserResponseModel>(x);
+                user.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(x.useRelateds);
+                usersModel.Add(user);
+            });
+            return usersModel;
+
+        }
+
+        public async Task<GetAllWithPaging<UserModel, PaginationFilterQuickSeach>> SearchQuick(string searchString, int PageNumber, int PageSize)
+        {
+            var validFilter = new PaginationFilterQuickSeach(searchString,PageNumber, PageSize);
+            var users =await _userRepository.SearchQuick(searchString);
+            var usersModel = _mapper.Map<List<UserModel>>(users);
+            var totalRecords = usersModel.Count();
+            var pagedData = usersModel
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+            var result = new GetAllWithPaging<UserModel, PaginationFilterQuickSeach>(validFilter, pagedData, totalRecords);
+            return result;
+        }
+        public async Task<GetAllWithPaging<UserModel, PaginationFilterDetailSearch>> SearchDetail(PaginationFilterDetailSearch paginationFilterDetailSearch)
+        {
+            var validFilter = new PaginationFilterDetailSearch(paginationFilterDetailSearch);
+            var userSearch = _mapper.Map<User>(paginationFilterDetailSearch.Search);
+            var users = await _userRepository.SearchDetail(userSearch);
+            var usersModel = _mapper.Map<IEnumerable<UserModel>>(users);
+            var totalRecords = usersModel.Count();
+            var pagedData = usersModel
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+            var result = new GetAllWithPaging<UserModel, PaginationFilterDetailSearch>(validFilter, pagedData, totalRecords);
+            return result;
+        }
 
         private void UploadedFile(Byte[] file, IFormFile formFile, out string fileName, out string filePath)
         {

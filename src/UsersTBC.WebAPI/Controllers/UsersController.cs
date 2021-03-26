@@ -4,9 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UsersTBC.Application.Filter;
 using UsersTBC.Application.Models;
+using UsersTBC.Application.Paging.Helpers;
+using UsersTBC.Application.Paging.Services;
 using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Domain.Entities;
+using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.WebAPI.Controllers
 {
@@ -15,10 +19,12 @@ namespace UsersTBC.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
+        private readonly IUriService _uriService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IUriService uriService)
         {
             _userService = userService;
+            _uriService = uriService;
         }
 
         [HttpGet]
@@ -62,13 +68,36 @@ namespace UsersTBC.WebAPI.Controllers
             return Ok(new { status = result });
         }
 
-        [HttpGet("userId")]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetUser(int userId)
         {
             var result = await _userService.GetUser(userId);
             return Ok(result);
         }
+        [HttpGet("WithRelatedPersons/{RelatedTypeId}")]
+        public async Task<IActionResult> UsersWithRelatedPersons(RelatedType RelatedTypeId)
+        {
+            var result = await _userService.UsersWithRelatedPersons(RelatedTypeId);
+            return Ok(result);
+        }
 
+        [HttpGet("SearchQuick")]
+        public async Task<IActionResult> SearchQuick([FromQuery] PaginationFilterQuickSeach filter)
+        {
+            var route = Request.Path.Value;
+            var model = await _userService.SearchQuick(filter.SearchString, filter.PageNumber, filter.PageSize);
+            var pagedReponse = PaginationHelper.CreatePagedReponse<UserModel>(model.entities, model.PaginationFilter, model.totalRecords, _uriService, route);
+            return Ok(pagedReponse);
+        }
+
+        [HttpGet("SearchDetail")]
+        public async Task<IActionResult> SearchDetail([FromQuery] PaginationFilterDetailSearch filter)
+        {
+            var route = Request.Path.Value;
+            var model = await _userService.SearchDetail(filter);
+            var pagedReponse = PaginationHelper.CreatePagedReponse<UserModel>(model.entities, model.PaginationFilter, model.totalRecords, _uriService, route);
+            return Ok(pagedReponse);
+        }
 
 
 

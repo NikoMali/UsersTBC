@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UsersTBC.Domain.Entities;
+using UsersTBC.Domain.Enum;
 using UsersTBC.Domain.HelperModel;
 
 namespace UsersTBC.Domain.Interfaces
@@ -10,5 +11,8 @@ namespace UsersTBC.Domain.Interfaces
     {
         Task<User> GetUser(int id);
         Task<List<UseRelated>> GetRelatedUsersByUserId(int id);
+        Task<List<UserWithRelatedPerson>> UsersWithRelatedPersons(RelatedType id);
+        Task<List<User>> SearchQuick(string SearchString);
+        Task<IEnumerable<User>> SearchDetail(User userSearch);
     }
 }
