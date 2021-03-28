@@ -5,7 +5,7 @@ using UsersTBC.Domain.Enum;
 
 namespace UsersTBC.Domain.Entities
 {
-    public class User: BaseEntity
+    public class User: BaseEntity,IEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

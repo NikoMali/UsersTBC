@@ -7,6 +7,8 @@ using UsersTBC.Insfrastructure.Helpers;
 using UsersTBC.Insfrastructure.Repository;
 using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Application.Services.Repository;
+using UsersTBC.Domain.Entities;
+using UsersTBC.Infrastructure.Helpers;
 
 namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
 {
@@ -29,7 +31,8 @@ namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
                 return new UriService(uri);
             });
             ////
-            
+            services.AddScoped<ValidateEntityExistsAttribute<User>>();
+
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<DataContext>());
         }
     }

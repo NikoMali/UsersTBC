@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using UsersTBC.Application.Paging.Services;
 using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Enum;
+using UsersTBC.Infrastructure.Helpers;
+using UsersTBC.Infrastructure.Reporting;
 
 namespace UsersTBC.WebAPI.Controllers
 {
@@ -20,11 +23,13 @@ namespace UsersTBC.WebAPI.Controllers
     {
         private IUserService _userService;
         private readonly IUriService _uriService;
+        private readonly IWebHostEnvironment _web;
 
-        public UsersController(IUserService userService, IUriService uriService)
+        public UsersController(IUserService userService, IUriService uriService, IWebHostEnvironment web)
         {
             _userService = userService;
             _uriService = uriService;
+            _web = web;
         }
 
         [HttpGet]
@@ -68,15 +73,18 @@ namespace UsersTBC.WebAPI.Controllers
             return Ok(new { status = result });
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUser(int userId)
+        [HttpGet("{Id}")]
+        [ServiceFilter(typeof(ValidateEntityExistsAttribute<User>))]
+        public async Task<IActionResult> GetUser(int Id)
         {
-            var result = await _userService.GetUser(userId);
+            var result = await _userService.GetUser(Id);
             return Ok(result);
         }
         [HttpGet("WithRelatedPersons/{RelatedTypeId}")]
         public async Task<IActionResult> UsersWithRelatedPersons(RelatedType RelatedTypeId)
         {
+            
+            ReportUsersWithRelatedPerson.ReportUsers(_web,_userService);
             var result = await _userService.UsersWithRelatedPersons(RelatedTypeId);
             return Ok(result);
         }

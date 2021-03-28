@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using ProductTermsControl.Insfrastructure.StartUpExtensions;
 using System;
+using UsersTBC.Infrastructure.Middleware;
 using UsersTBC.Insfrastructure.Helpers;
 using UsersTBC.Insfrastructure.IntarfaceConnReposit;
 using UsersTBC.Insfrastructure.StartUpExtensions;
@@ -61,13 +62,15 @@ namespace UsersTBC.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseMiddleware<ErrorHandlerMiddleware>();
+
             }
-           /* app.UseCors(builder => builder
-                       .WithOrigins(settings.AllowedHost)
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials()
-                       );*/
+            else
+            {
+                app.UseMiddleware<ErrorHandlerMiddleware>();
+            }
+            app.UseMiddleware<AcceptLanguageHttpHeader>();
+
 
             app.UseHttpsRedirection();
 
@@ -82,6 +85,7 @@ namespace UsersTBC.WebAPI
                 endpoints.MapControllers();
             });
             app.UseCustomizedSwagger(_env);
+
         }
         private static void RegisterServices(IServiceCollection services)
         {

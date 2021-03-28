@@ -198,6 +198,7 @@ namespace UsersTBC.Application.Services.Repository
             userModel.UserMobileNumbers = _mapper.Map<List<UserMobileNumberModel>>(await _userMobileRepository.FindAll(x => x.UserId == userId));
             userModel.Images = _mapper.Map<List<UserImagesResponseModel>>(await _userImageRepository.FindAll(x => x.UserId == userId));
             userModel.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(await _userRepository.GetRelatedUsersByUserId(userId));
+
             return userModel;
         }
 
