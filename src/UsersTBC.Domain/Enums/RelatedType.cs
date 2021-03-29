@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UsersTBC.Domain.Enum
+namespace UsersTBC.Domain.Enums
 {
     public enum RelatedType
     {

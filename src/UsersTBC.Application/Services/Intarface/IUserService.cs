@@ -6,14 +6,14 @@ using UsersTBC.Application.Filter;
 using UsersTBC.Application.Helpers;
 using UsersTBC.Application.Models;
 using UsersTBC.Domain.Entities;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 
 namespace UsersTBC.Application.Services.Intarface
 {
     public interface IUserService
     {
 
-        Task<IEnumerable<UserResponseModel>> GetAll();
+        
         Task<string> Create(UserRequestModel userRequestModel);
         Task<string> UpdateUser(UserUpdateRequestModel userUpdateRequestModel);
         Task<string> AddOrUpdateImage(UserImageRequestModel userImageRequestModel);
@@ -23,7 +23,7 @@ namespace UsersTBC.Application.Services.Intarface
         Task<List<UserResponseModel>> UsersWithRelatedPersons(RelatedType relatedTypeId);
         Task<GetAllWithPaging<UserModel, PaginationFilterQuickSeach>> SearchQuick(string searchString, int PageNumber, int PageSize);
         Task<GetAllWithPaging<UserModel, PaginationFilterDetailSearch>> SearchDetail(PaginationFilterDetailSearch paginationFilterDetailSearch);
-        //Task<List<UserModel>> SearchDetail(SearchDetailModel searchUser);
+       
 
     }
 }

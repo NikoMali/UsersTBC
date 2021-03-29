@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 
 namespace UsersTBC.Application.Models
 {

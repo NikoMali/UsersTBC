@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 
 namespace UsersTBC.Domain.Entities
 {
@@ -14,13 +14,17 @@ namespace UsersTBC.Domain.Entities
         public RelatedType RelatedType { get; set; }
 
         public UseRelated() { }
-        public UseRelated(UseRelated useRelated, User user, City city, int userId)
+        public UseRelated(UseRelated useRelated, User user, City city,City_Translation city_Translation, int userId)
         {
             Id = useRelated.Id;
             UserId = userId;
             RelatedUserId = useRelated.RelatedUserId;
             RelatedUser = new User(user,city);
             RelatedType = useRelated.RelatedType;
+            if (city_Translation != null)
+            {
+                RelatedUser.City.Name = city_Translation.NameTranslate;
+            }
         }
         public void AssignedUserId(int userId)
         {

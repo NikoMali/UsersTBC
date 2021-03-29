@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,17 +28,20 @@ namespace UsersTBC.WebAPI
 
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+       
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers();
             services.AddDbContext<DataContext>();
             Serilogging.SerilogInitial(_configuration);
 
+            services.AddHttpContextAccessor();
             var appSettingsSection = _configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             settings = appSettingsSection.Get<AppSettings>();
 
+            
 
             services.AddCors();
             services.AddControllers()
@@ -56,7 +60,7 @@ namespace UsersTBC.WebAPI
             services.AddCustomizedSwagger(_env);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext)
         {
             if (env.IsDevelopment())
@@ -71,6 +75,7 @@ namespace UsersTBC.WebAPI
             }
             app.UseMiddleware<AcceptLanguageHttpHeader>();
 
+           
 
             app.UseHttpsRedirection();
 
@@ -86,10 +91,11 @@ namespace UsersTBC.WebAPI
             });
             app.UseCustomizedSwagger(_env);
 
+
         }
         private static void RegisterServices(IServiceCollection services)
         {
-            // Adding dependencies from another layers (isolated from Presentation)
+           
             IntarfaceConnReposit.RegisterServices(services);
 
         }

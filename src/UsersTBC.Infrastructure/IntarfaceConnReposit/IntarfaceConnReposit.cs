@@ -9,6 +9,7 @@ using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Application.Services.Repository;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Infrastructure.Helpers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
 {
@@ -16,13 +17,14 @@ namespace UsersTBC.Insfrastructure.IntarfaceConnReposit
     {
         public static void RegisterServices(IServiceCollection services)
         {
+
+           
             //services.AddScoped<IRepository<UserReference>, Repository<UserReference>>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             //for paging
-            services.AddHttpContextAccessor();
             services.AddSingleton<IUriService>(o =>
             {
                 var accessor = o.GetRequiredService<IHttpContextAccessor>();

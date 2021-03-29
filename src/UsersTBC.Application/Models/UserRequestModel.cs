@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using UsersTBC.Application.Helpers;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 
 namespace UsersTBC.Application.Models
 {

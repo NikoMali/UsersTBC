@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UsersTBC.Insfrastructure.Helpers;
 
 namespace UsersTBC.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210328193335_Language")]
+    partial class Language
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,24 +43,6 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1566),
-                            IsActive = "true",
-                            Name = "Tbilisi",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1583)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1630),
-                            IsActive = "true",
-                            Name = "Khashuri",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1632)
-                        });
                 });
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.City_Translation", b =>
@@ -90,26 +74,6 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("City_Translations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CityId = 1,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4605),
-                            LanguageId = 2,
-                            NameTranslate = "თბილისი",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4614)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CityId = 3,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4669),
-                            LanguageId = 2,
-                            NameTranslate = "ხაშური",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4670)
-                        });
                 });
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.Language", b =>
@@ -137,24 +101,6 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "en-US",
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 678, DateTimeKind.Local).AddTicks(4170),
-                            Name = "English",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 679, DateTimeKind.Local).AddTicks(1605)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "ka-GE",
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 679, DateTimeKind.Local).AddTicks(2378),
-                            Name = "Georgia",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 679, DateTimeKind.Local).AddTicks(2385)
-                        });
                 });
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.UseRelated", b =>

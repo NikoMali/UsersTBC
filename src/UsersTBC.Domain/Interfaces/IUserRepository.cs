@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UsersTBC.Domain.Entities;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 using UsersTBC.Domain.HelperModel;
 
 namespace UsersTBC.Domain.Interfaces

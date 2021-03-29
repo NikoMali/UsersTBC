@@ -6,14 +6,16 @@ using UsersTBC.Domain.Interfaces;
 using UsersTBC.Insfrastructure.Helpers;
 using System.Linq;
 using System.Collections.Generic;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 using System;
+using System.Threading;
 
 namespace UsersTBC.Insfrastructure.Repository
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
         private readonly DataContext _dbContext;
+        private readonly string langCode = Thread.CurrentThread.CurrentCulture.Name;
         public UserRepository(DataContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
@@ -23,14 +25,17 @@ namespace UsersTBC.Insfrastructure.Repository
         {
             var result = from U in _dbContext.Users
                          join C in _dbContext.Cities on U.CityId equals C.Id
-                         /*join UM in _dbContext.UserMobileNumbers on U.Id equals UM.UserId into U_UM
-                         from UM in U_UM.DefaultIfEmpty()
-                         join UI in _dbContext.UserImages on U.Id equals UI.UserId into U_UI
+                         join CT in (from CTL in _dbContext.City_Translations
+                                     join L in _dbContext.Languages on CTL.LanguageId equals L.Id
+                                     where L.Code == langCode
+                                     select new { CTL }) on U.CityId equals CT.CTL.CityId into C_CT
+                         from CT in C_CT.DefaultIfEmpty()
+                         /*join UI in _dbContext.UserImages on U.Id equals UI.UserId into U_UI
                          from UI in U_UI.DefaultIfEmpty()
                          join UR in _dbContext.UseRelateds on U.Id equals UR.UserId into U_UR
                          from UR in U_UR.DefaultIfEmpty()*/
                          where U.Id == id
-                         select new User(U, C);
+                         select new User(U, C, CT.CTL);
             return await result.FirstOrDefaultAsync();
 
         }
@@ -40,9 +45,14 @@ namespace UsersTBC.Insfrastructure.Repository
             var result = from UR in _dbContext.UseRelateds
                          join U in _dbContext.Users on UR.RelatedUserId equals U.Id
                          join C in _dbContext.Cities on U.CityId equals C.Id
-                         
+                         join CT in (from CTL in _dbContext.City_Translations
+                                     join L in _dbContext.Languages on CTL.LanguageId equals L.Id
+                                     where L.Code == langCode
+                                     select new { CTL }) on U.CityId equals CT.CTL.CityId into C_CT
+                         from CT in C_CT.DefaultIfEmpty()
+
                          where UR.UserId == id
-                         select new UseRelated(UR,U,C,id);
+                         select new UseRelated(UR,U,C,CT.CTL,id);
             return await result.ToListAsync();
 
         }

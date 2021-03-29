@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using UsersTBC.Application.ApplicationDbContext;
 using UsersTBC.Domain;
@@ -29,6 +29,8 @@ namespace UsersTBC.Insfrastructure.Helpers
         //Main Migration and Invoke PM Code: Add-Migration <Name > -Context DataContext -Project ProductTermsControl.Insfrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<City_Translation> City_Translations { get; set; }
+        public DbSet<Language> Languages { get; set; }
         public DbSet<UserImage> UserImages { get; set; }
         public DbSet<UserMobileNumber> UserMobileNumbers { get; set; }
         public DbSet<UseRelated> UseRelateds { get; set; }
@@ -86,13 +88,30 @@ namespace UsersTBC.Insfrastructure.Helpers
             }
         }
 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+            Seed(builder);
             base.OnModelCreating(builder);
         }
+        public static void Seed(ModelBuilder builder)
+        {
+            builder.Entity<Language>().HasData(
+                new Language { Id = 1, Name = "English", Code = "en-US", CreateDate = DateTime.Now, UpdateDate = DateTime.Now },
+                new Language { Id = 2, Name = "Georgia", Code = "ka-GE", CreateDate = DateTime.Now, UpdateDate = DateTime.Now }
+            );
+            builder.Entity<City>().HasData(
 
-       
+                new City { Id = 1, Name = "Tbilisi", IsActive = "true", CreateDate = DateTime.Now, UpdateDate = DateTime.Now },
+                new City { Id = 3, Name = "Khashuri", IsActive = "true", CreateDate = DateTime.Now, UpdateDate = DateTime.Now }
+            );
+            builder.Entity<City_Translation>().HasData(
+                new City_Translation { Id = 1, CityId = 1, LanguageId = 2, NameTranslate = "თბილისი", CreateDate = DateTime.Now, UpdateDate = DateTime.Now },
+                new City_Translation { Id = 2, CityId = 3, LanguageId = 2, NameTranslate = "ხაშური", CreateDate = DateTime.Now, UpdateDate = DateTime.Now }
+            );
+        }
+
+
     }
 }

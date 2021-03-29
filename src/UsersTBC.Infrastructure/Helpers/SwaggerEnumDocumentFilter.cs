@@ -12,7 +12,7 @@ namespace UsersTBC.Infrastructure.Helpers
     {
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            // add enum descriptions to result models
+           
             foreach (var property in swaggerDoc.Components.Schemas.Where(x => x.Value?.Enum?.Count > 0))
             {
                 IList<IOpenApiAny> propertyEnums = property.Value.Enum;
@@ -22,7 +22,7 @@ namespace UsersTBC.Infrastructure.Helpers
                 }
             }
 
-            // add enum descriptions to input parameters
+            
             foreach (var pathItem in swaggerDoc.Paths.Values)
             {
                 DescribeEnumParameters(pathItem.Operations, swaggerDoc);

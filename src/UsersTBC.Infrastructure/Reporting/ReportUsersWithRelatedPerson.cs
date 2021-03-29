@@ -1,5 +1,6 @@
 ﻿using Aspose.Words;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,44 +10,44 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
+using UsersTBC.Application.Models;
 using UsersTBC.Application.Services.Intarface;
+using UsersTBC.Domain.Enums;
 using UsersTBC.Domain.Interfaces;
 
 namespace UsersTBC.Infrastructure.Reporting
 {
     public class ReportUsersWithRelatedPerson
     {
-        //private readonly IWebHostEnvironment _hostingEnvironment;
-        //private readonly IUserRepository _userRepository;
-        /*public ReportUsersWithRelatedPerson(IWebHostEnvironment hostEnvironment, IUserRepository userRepository)
+        private static string fileName = "MailMerge.ExecuteWithRegions.docx";
+        private static string folderName = "reports";
+        private static string nameWithGuidId = Guid.NewGuid().ToString() + "_MailMerge.AlternatingRows_out.pdf";
+        
+
+        public static string ReportUsers(IWebHostEnvironment hostingEnvironment,string baseUrl, List<UserResponseModel> userResponseModel)
         {
-            _hostingEnvironment = hostEnvironment;
-            _userRepository = userRepository;
-        }*/
-        public static void ReportUsers(IWebHostEnvironment _hostingEnvironment,IUserService userService)
-        {
-            var dataDir = _hostingEnvironment.WebRootPath;
-            string fileName = "MailMerge.ExecuteWithRegions.docx";
+            var dataDir = hostingEnvironment.WebRootPath;
+            
             Document doc = new Document(dataDir +"\\"+ fileName);
 
-            var users = System.Text.Json.JsonSerializer.Serialize(userService.UsersWithRelatedPersons(Domain.Enum.RelatedType.Colleague).Result);
-            var node = JsonConvert.DeserializeXNode("{\"Row\":" + users + "}", "root");
-            StringReader sr = new StringReader(node.ToString());
+            var users = System.Text.Json.JsonSerializer.Serialize(userResponseModel);
 
-            // Create the Dataset and read the XML.
+            var node = JsonConvert.DeserializeXNode("{\"Row\":" + users + "}", "root");
+
+            StringReader sr = new StringReader(node.ToString());
+            
             DataSet customersDs = new DataSet();
+
             customersDs.ReadXml(sr);
 
-            
-            
-
-            // Execute mail merge to fill the template with data from XML using DataTable.
+           
             doc.MailMerge.ExecuteWithRegions(customersDs.Tables["Row"]);
 
-            //dataDir = dataDir;
-            dataDir = dataDir + "\\MailMerge.AlternatingRows_out.pdf";
+            dataDir = dataDir + "\\"+ folderName+ "\\"+ nameWithGuidId;
+
             // Save the output document.
             doc.Save(dataDir);
+            return $"{baseUrl}/{folderName}/{nameWithGuidId}";
         }
     }
 }

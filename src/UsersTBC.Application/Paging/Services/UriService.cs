@@ -3,7 +3,7 @@ using UsersTBC.Application.Filter;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UsersTBC.Domain.Enum;
+using UsersTBC.Domain.Enums;
 
 namespace UsersTBC.Application.Paging.Services
 {
@@ -11,6 +11,7 @@ namespace UsersTBC.Application.Paging.Services
     {
         public Uri GetPageUri(PaginationFilterQuickSeach filter, string route);
         public Uri GetPageUri(PaginationFilterDetailSearch filter, string route);
+        public string GetBaseUrl();
     }
 
     public class UriService : IUriService
@@ -64,6 +65,11 @@ namespace UsersTBC.Application.Paging.Services
 
             }
             return new Uri(modifiedUri);
+        }
+
+        public string GetBaseUrl()
+        {
+            return _baseUri;
         }
     }
 }
