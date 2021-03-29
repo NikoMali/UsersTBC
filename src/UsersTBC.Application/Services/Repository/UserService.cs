@@ -168,6 +168,10 @@ namespace UsersTBC.Application.Services.Repository
         public async Task<UserResponseModel> GetUser(int userId)
         {
             var user = await _userRepository.GetUser(userId);
+            if (user == null)
+            {
+                throw new AppException("User not found");
+            }
             var userModel = _mapper.Map<UserResponseModel>(user);
             userModel.UserMobileNumbers = _mapper.Map<List<UserMobileNumberModel>>(await _userMobileRepository.FindAll(x => x.UserId == userId));
             userModel.Images = _mapper.Map<List<UserImagesResponseModel>>(await _userImageRepository.FindAll(x => x.UserId == userId));
@@ -181,6 +185,10 @@ namespace UsersTBC.Application.Services.Repository
         {
             var usersModel = new List<UserResponseModel>();
             var users = await _userRepository.UsersWithRelatedPersons(relatedTypeId);
+            if(users.Count == 0)
+            {
+                throw new AppException("Not Exist Relate Type Users");
+            } 
 
             users.ForEach(x =>
             {

@@ -15,7 +15,7 @@ namespace UsersTBC.Domain.Help
         private readonly ResourceManager _resource;
         private readonly string CurrentLang = Thread.CurrentThread.CurrentCulture.Name;
 
-        IHttpContextAccessor _httpContextAccessor;
+        
         public LocalizedDescriptionAttribute(string resourceKey)
         {
             if (CurrentLang == "en-US")

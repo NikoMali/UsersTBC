@@ -5,6 +5,11 @@
 	<GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>;NU1605;</WarningsAsErrors>
+    <NoWarn>1701;1702;CS0108;CS0114</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="4.1.0" />
     <PackageReference Include="Aspose.Words" Version="21.3.0" />

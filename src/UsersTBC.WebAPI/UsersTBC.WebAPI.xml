@@ -4,5 +4,52 @@
         <name>UsersTBC.WebAPI</name>
     </assembly>
     <members>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.CreateUser(UsersTBC.Application.Models.UserRequestModel)">
+            <summary>
+            Create User
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.Update(UsersTBC.Application.Models.UserUpdateRequestModel)">
+            <summary>
+            Update User
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.AddOrUpdateImage(UsersTBC.Application.Models.UserImageRequestModel)">
+            <summary>
+            Add Or Update User Image
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.AddOrUpdateUserRelated(UsersTBC.Application.Models.UserRelatedRequestModel)">
+            <summary>
+            Add Or Update User Related Persons
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.UserDelete(System.Int32)">
+            <summary>
+            Delete User
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.GetUser(System.Int32)">
+            <summary>
+            Get User Full Info
+            Validate is method response entity exists attribute as Action Filter
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.UsersWithRelatedPersons(UsersTBC.Domain.Enums.RelatedType)">
+            <summary>
+            Report User And Related User by Related Type 
+            And Generic Report pdf format file
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.SearchQuick(UsersTBC.Application.Filter.PaginationFilterQuickSeach)">
+            <summary>
+            Search Quick User by FirstName, LastName, PersonalNumber with paging
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.SearchDetail(UsersTBC.Application.Filter.PaginationFilterDetailSearch)">
+            <summary>
+            Search Detail User by All Field with paging
+            </summary>
+        </member>
     </members>
 </doc>

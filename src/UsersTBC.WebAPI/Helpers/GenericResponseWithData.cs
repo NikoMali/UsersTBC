@@ -14,8 +14,11 @@ namespace UsersTBC.WebAPI.Helpers
             get { return _data; }
             set { _data = value; }
         }
-       
 
+        public GenericResponseWithData()
+        {
+           
+        }
         public GenericResponseWithData(T data, bool success, string message)
         {
             this.success = success;
