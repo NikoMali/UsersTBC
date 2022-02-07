@@ -22,6 +22,9 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using static UsersTBC.Application.Users.Commond.CreateUser.CreateUserCommond;
 using UsersTBC.Application.Users.Commond.CreateUser;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using ProductTermsControl.WebAPI.Helpers;
 
 namespace UsersTBC.WebAPI
 {
@@ -109,13 +112,19 @@ namespace UsersTBC.WebAPI
                 setup.SubstituteApiVersionInUrl = true;
             });
 
-            
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMemoryCache();
+            services.AddHealthChecks();
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCustomizedSwagger(_env);
             RegisterServices(services);
             services.AddMediatR(typeof(CreateUserCommondHandler));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // Here is the GUI setup and history storage
+            
 
         }
 
@@ -144,12 +153,21 @@ namespace UsersTBC.WebAPI
 
             app.UseStaticFiles();
 
+            app.UseCustomizedSwagger(_env);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
-            app.UseCustomizedSwagger(_env);
 
+            //Sets Health Check dashboard options
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                Predicate = p => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            
 
         }
         private static void RegisterServices(IServiceCollection services)

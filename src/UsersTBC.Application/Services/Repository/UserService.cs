@@ -15,6 +15,7 @@ using UsersTBC.Application.Filter;
 using UsersTBC.Application.Helpers;
 using Microsoft.Extensions.Localization;
 using UsersTBC.Domain.Localize;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace UsersTBC.Application.Services.Repository
 {
@@ -24,13 +25,15 @@ namespace UsersTBC.Application.Services.Repository
         private readonly IHostingEnvironment _hostingEnvironment;
         private IMapper _mapper;
         private readonly IStringLocalizer<Resource> _localizer;
+        private readonly IMemoryCache _memoryCache;
 
 
         public UserService(
             IUnitOfWork unitOfWork,
                             IHostingEnvironment hostEnvironment,
                             IMapper mapper,
-                            IStringLocalizer<Resource> localizer
+                            IStringLocalizer<Resource> localizer,
+                            IMemoryCache memoryCache
             )
         {
             _unitOfWork = unitOfWork;
@@ -39,6 +42,7 @@ namespace UsersTBC.Application.Services.Repository
             _hostingEnvironment = hostEnvironment;
             _mapper = mapper;
             _localizer = localizer;
+            _memoryCache = memoryCache;
 
         }
 
@@ -168,7 +172,24 @@ namespace UsersTBC.Application.Services.Repository
         }
         public async Task<UserResponseModel> GetUser(int userId)
         {
-            var user = await _unitOfWork.UserRepository.GetUser(userId);
+            var cacheKey = "user-"+userId;
+            
+            if (!_memoryCache.TryGetValue(cacheKey, out User user))
+            {
+                
+                user = await _unitOfWork.UserRepository.GetUser(userId);
+
+                
+                var cacheExpiryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddSeconds(50),
+                    Priority = CacheItemPriority.High,
+                    SlidingExpiration = TimeSpan.FromSeconds(20)
+                };
+                
+                _memoryCache.Set(cacheKey, user, cacheExpiryOptions);
+            }
+            
             if (user == null)
             {
                 throw new AppException(_localizer["UserNotFound"]);

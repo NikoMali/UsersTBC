@@ -18,7 +18,7 @@ namespace FunctionalTests.ModelTest
         public string LastName { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public string Gender { get; set; }
+        public int GenderId { get; set; }
         public int CityId { get; set; }
         public CityModel City { get; set; }
         public List<UserMobileNumberModelTest> UserMobileNumbers { get; set; }
