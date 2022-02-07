@@ -12,7 +12,7 @@ namespace UsersTBC.Domain.HelperModel
         public string LastName { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public Gender Gender { get; set; }
+        public int GenderId { get; set; }
 
 
         //refference
@@ -29,7 +29,7 @@ namespace UsersTBC.Domain.HelperModel
             LastName = user.LastName;
             PersonalNumber = user.PersonalNumber;
             BirthDate = user.BirthDate;
-            Gender = user.Gender;
+            GenderId = user.GenderId;
             CityId = user.CityId;
             useRelateds = useRelated;
         }

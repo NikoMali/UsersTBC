@@ -11,7 +11,7 @@ namespace UsersTBC.Domain.Interfaces
     {
         Task<User> GetUser(int id);
         Task<List<UseRelated>> GetRelatedUsersByUserId(int id);
-        Task<List<UserWithRelatedPerson>> UsersWithRelatedPersons(RelatedType id);
+        Task<List<UserWithRelatedPerson>> UsersWithRelatedPersons(RelatedTypeEnum id);
         Task<List<User>> SearchQuick(string SearchString);
         Task<IEnumerable<User>> SearchDetail(User userSearch);
     }

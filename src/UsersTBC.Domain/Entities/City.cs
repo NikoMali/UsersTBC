@@ -10,7 +10,10 @@ namespace UsersTBC.Domain.Entities
         public string Name { get; set; }
         public string IsActive { get; set; }
 
-        public List<User> Users { get; set; }
-        public List<City_Translation> City_Translations { get; set; }
+        private readonly HashSet<User> _users = new HashSet<User>();
+        public IReadOnlyCollection<User> Users => _users;
+
+        private readonly HashSet<City_Translation> _city_Translations = new HashSet<City_Translation>();
+        public IReadOnlyCollection<City_Translation> City_Translations => _city_Translations;
     }
 }

@@ -23,7 +23,13 @@ namespace ProductTermsControl.Insfrastructure.StartUpExtensions
                     c.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Version = "v1",
-                        Title = "TBC Users",
+                        Title = "TBC Users v1",
+                        Description = ""
+                    });
+                    c.SwaggerDoc("v2", new OpenApiInfo
+                    {
+                        Version = "v2",
+                        Title = "TBC Users v2",
                         Description = ""
                     });
                     c.DocumentFilter<SwaggerEnumDocumentFilter>();

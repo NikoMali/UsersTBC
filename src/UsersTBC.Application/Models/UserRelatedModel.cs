@@ -11,8 +11,8 @@ namespace UsersTBC.Application.Models
         [Required]
         public int RelatedUserId { get; set; }
 
-        [EnumDataType(typeof(Gender), ErrorMessage = "type value doesn't exist within enum")]
-        public RelatedType RelatedType { get; set; }
+        [EnumDataType(typeof(RelatedTypeEnum), ErrorMessage = "type value doesn't exist within enum")]
+        public RelatedTypeEnum RelatedType { get; set; }
 
     }
 }

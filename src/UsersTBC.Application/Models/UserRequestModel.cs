@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -29,11 +30,16 @@ namespace UsersTBC.Application.Models
         public DateTime BirthDate { get; set; }
 
 
-        [EnumDataType(typeof(Gender), ErrorMessage = "type value doesn't exist within enum")]
-        public Gender Gender { get; set; }
+        [EnumDataType(typeof(GenderEnum), ErrorMessage = "type value doesn't exist within enum")]
+        public int GenderId { get { return (int)_genderEnum; } set { _genderEnum = (GenderEnum)value; } }
 
         [Required]
         public int CityId { get; set; }
+
+
+
+
+        private GenderEnum _genderEnum;
 
 
         public List<UserMobileNumberModel> UserMobileNumbers { get; set; }

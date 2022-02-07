@@ -13,7 +13,9 @@ namespace UsersTBC.Application.Models
         public string LastName { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public Gender Gender { get; set; }
+        public int GenderId { get; set; }
+
+        public GenderEnum Gender { get { return _genderEnum; } set { _genderEnum = (GenderEnum)GenderId; } }
         public int CityId { get; set; }
         public CityModel City { get; set; }
         public List<UserMobileNumberModel> UserMobileNumbers { get; set; }
@@ -32,5 +34,6 @@ namespace UsersTBC.Application.Models
             userRelateds = userWithRelatedPerson.useRelateds;
         }*/
 
+        private GenderEnum _genderEnum;
     }
 }

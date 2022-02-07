@@ -11,14 +11,17 @@ namespace UsersTBC.Domain.Entities
         public string LastName { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public Gender Gender { get; set; }
-
-
-        //refference
+        public int GenderId { get; set; }
         public int CityId { get; set; }
+
+
+        public Gender Gender { get; set; }
         public City City { get; set; }
 
-        public User() { }
+        public User() {
+        
+            
+        }
         public User(User user, City city)
         {
             Id = user.Id;
@@ -26,7 +29,7 @@ namespace UsersTBC.Domain.Entities
             LastName = user.LastName;
             PersonalNumber = user.PersonalNumber;
             BirthDate = user.BirthDate;
-            Gender = user.Gender;
+            GenderId = user.GenderId;
             CityId = city.Id;
             City = city;
         }
@@ -37,7 +40,7 @@ namespace UsersTBC.Domain.Entities
             LastName = user.LastName;
             PersonalNumber = user.PersonalNumber;
             BirthDate = user.BirthDate;
-            Gender = user.Gender;
+            GenderId = user.GenderId;
             CityId = city.Id;
             City = city;
             if (city_Translation != null)
@@ -45,8 +48,15 @@ namespace UsersTBC.Domain.Entities
                 City.Name = city_Translation.NameTranslate;
             }
         }
-        //public List<UserMobileNumber> userMobileNumbers { get; set; }
-        //public List<UserImage> userImages { get; set; }
-        //public List<UseRelated> useRelateds { get; set; }
+
+        private readonly HashSet<UserMobileNumber> _userMobileNumbers = new HashSet<UserMobileNumber>();
+        public IReadOnlyCollection<UserMobileNumber> UserMobileNumbers => _userMobileNumbers;
+
+        private readonly HashSet<UserImage> _userImages = new HashSet<UserImage>();
+        public IReadOnlyCollection<UserImage> userImages => _userImages;
+
+        private readonly HashSet<UseRelated> _userRelateds = new HashSet<UseRelated>();
+        public IReadOnlyCollection<UseRelated> useRelateds => _userRelateds;
+        
     }
 }

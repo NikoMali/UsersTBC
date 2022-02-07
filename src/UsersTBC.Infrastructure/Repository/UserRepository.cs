@@ -56,13 +56,15 @@ namespace UsersTBC.Insfrastructure.Repository
             return await result.ToListAsync();
 
         }
-        public Task<List<UserWithRelatedPerson>> UsersWithRelatedPersons(RelatedType id)
+        public Task<List<UserWithRelatedPerson>> UsersWithRelatedPersons(RelatedTypeEnum id)
         {
             var Users = from U in _dbContext.Users.AsEnumerable()
                         join UR in _dbContext.UseRelateds.AsEnumerable() on U.Id equals UR.UserId into U_UR
                         from UR in U_UR.DefaultIfEmpty()
-                        where UR?.RelatedType == id
-                        group new { UR, U } by new { UR.UserId } into URg
+                        join URu in _dbContext.Users on UR?.RelatedUserId equals URu.Id into U_URu
+                        from URu in U_URu.DefaultIfEmpty()
+                        where UR?.RelatedTypeId == (int)id
+                        group new { UR, U, URu } by new { UR.UserId } into URg
                         select new UserWithRelatedPerson(URg.FirstOrDefault().U, URg.Select(urg => urg.UR));
 
             return Task.FromResult(Users.Take(10).ToList());
@@ -109,12 +111,12 @@ namespace UsersTBC.Insfrastructure.Repository
             {
                 result = result.Where(x => x.BirthDate == userSearch.BirthDate);
             }
-            if (userSearch?.Gender != null)
+            if (userSearch?.GenderId != null)
             {
 
-                if (Enum.IsDefined(typeof(Gender), userSearch.Gender))
+                if (Enum.IsDefined(typeof(GenderEnum), userSearch.GenderId))
                 {
-                    result = result.Where(x => x.Gender == userSearch.Gender);
+                    result = result.Where(x => x.GenderId == userSearch.GenderId);
                 }
             }
             return Task.FromResult(result.AsEnumerable());

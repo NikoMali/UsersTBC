@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using UsersTBC.Domain.Entities;
+using UsersTBC.Infrastructure.Extensions;
 
 namespace UsersTBC.Insfrastructure.Helpers
 {
@@ -33,7 +34,10 @@ namespace UsersTBC.Insfrastructure.Helpers
         public DbSet<Language> Languages { get; set; }
         public DbSet<UserImage> UserImages { get; set; }
         public DbSet<UserMobileNumber> UserMobileNumbers { get; set; }
+        public DbSet<RelatedType> RelatedTypes { get; set; }
         public DbSet<UseRelated> UseRelateds { get; set; }
+        public DbSet<MobileNumberType> MobileNumberTypes { get; set; }
+        public DbSet<Gender> Genders { get; set; }
 
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
@@ -91,11 +95,25 @@ namespace UsersTBC.Insfrastructure.Helpers
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            builder.Entity<Gender>().Property(e => e.Name).HasConversion<string>();
+            builder.Entity<RelatedType>().Property(e => e.Name).HasConversion<string>();
+            builder.Entity<MobileNumberType>().Property(e => e.Name).HasConversion<string>();
+
+            builder.Entity<UseRelated>().HasOne<User>().WithMany().HasForeignKey(e => e.RelatedUserId);
+
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            Seed(builder);
+            //Seed(builder);
+            
+
+
+            //builder.Entity<UseRelated>().HasOne<User>().WithMany().HasForeignKey(e => e.UserId);
+
+
+            builder.Seed();
             base.OnModelCreating(builder);
         }
-        public static void Seed(ModelBuilder builder)
+        /*public static void Seed(ModelBuilder builder)
         {
             builder.Entity<Language>().HasData(
                 new Language { Id = 1, Name = "English", Code = "en-US", CreateDate = DateTime.Now, UpdateDate = DateTime.Now },
@@ -110,7 +128,7 @@ namespace UsersTBC.Insfrastructure.Helpers
                 new City_Translation { Id = 1, CityId = 1, LanguageId = 2, NameTranslate = "თბილისი", CreateDate = DateTime.Now, UpdateDate = DateTime.Now },
                 new City_Translation { Id = 2, CityId = 3, LanguageId = 2, NameTranslate = "ხაშური", CreateDate = DateTime.Now, UpdateDate = DateTime.Now }
             );
-        }
+        }*/
 
 
     }

@@ -13,37 +13,38 @@ using UsersTBC.Domain.Interfaces;
 using UsersTBC.Domain.Enums;
 using UsersTBC.Application.Filter;
 using UsersTBC.Application.Helpers;
+using Microsoft.Extensions.Localization;
+using UsersTBC.Domain.Localize;
 
 namespace UsersTBC.Application.Services.Repository
 {
     public class UserService : IUserService 
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IRepository<UserMobileNumber> _userMobileRepository;
-        private readonly IRepository<UserImage> _userImageRepository;
-        private readonly IRepository<UseRelated> _userRelatedRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IHostingEnvironment _hostingEnvironment;
         private IMapper _mapper;
+        private readonly IStringLocalizer<Resource> _localizer;
 
-        public UserService(IUserRepository userRepository,
-                            IRepository<UserMobileNumber> userMobileRepository,
-                            IRepository<UserImage> userImageRepository,
-                            IRepository<UseRelated> userRelatedRepository,
+
+        public UserService(
+            IUnitOfWork unitOfWork,
                             IHostingEnvironment hostEnvironment,
-                            IMapper mapper
+                            IMapper mapper,
+                            IStringLocalizer<Resource> localizer
             )
         {
-            _userRepository = userRepository;
-            _userMobileRepository = userMobileRepository;
-            _userImageRepository = userImageRepository;
-            _userRelatedRepository = userRelatedRepository;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _localizer = localizer;
             _hostingEnvironment = hostEnvironment;
             _mapper = mapper;
+            _localizer = localizer;
+
         }
 
-        
 
-        
+
+
 
         public async Task<string> Create(UserRequestModel userRequestModel)
         {
@@ -52,42 +53,36 @@ namespace UsersTBC.Application.Services.Repository
             var images = _mapper.Map<List<UserImage>>(userRequestModel.Images);
             var userRelateds = _mapper.Map<List<UseRelated>>(userRequestModel.userRelateds);
 
-            await _userRepository.AddAsync(user);
+            await _unitOfWork.UserRepository.AddAsync(user);
+            await _unitOfWork.SaveChangesAsync();
 
-            if (mobileNumber.Count > 0)
+            /*if (mobileNumber.Count > 0)
             {
                 mobileNumber.ForEach(x => x.AssignedUserId(user.Id));
-                mobileNumber.ForEach(x => _userMobileRepository.AddAsync(x).Wait());
+                mobileNumber.ForEach(x => _userMobileRepository.AddAsync(x));
             }
 
            
-            await UserSaveImages(userRequestModel.Images, user.Id);
 
             if (userRelateds.Count > 0)
             {
                 userRelateds.ForEach(x => x.AssignedUserId(user.Id));
-                userRelateds.ForEach(x => _userRelatedRepository.AddAsync(x).Wait());
+                userRelateds.ForEach(x => _userRelatedRepository.AddAsync(x));
             }
 
+            await UserSaveImages(userRequestModel.Images, user.Id);*/
             
             return ResultStatus.SUCCESS;
         }
 
         public async Task<string> UpdateUser(UserUpdateRequestModel userUpdateRequestModel)
         {
-            //try
-            //{
-                var user = _mapper.Map<User>(userUpdateRequestModel);
-                var userMobile = _mapper.Map<List<UserMobileNumber>>(userUpdateRequestModel.UserMobileNumbers);
-                await _userRepository.UpdateAsync(user);
-                await _userMobileRepository.UpdateRangeAsync(userMobile);
-                return ResultStatus.SUCCESS;
-            //}
-            //catch (Exception)
-            //{
-
-            //return "FAILED";
-            //}
+            var user = _mapper.Map<User>(userUpdateRequestModel);
+            var userMobile = _mapper.Map<List<UserMobileNumber>>(userUpdateRequestModel.UserMobileNumbers);
+            _unitOfWork.UserRepository.Update(user);
+            _unitOfWork.UserMobileRepository.UpdateRange(userMobile);
+            await _unitOfWork.SaveChangesAsync();
+            return ResultStatus.SUCCESS;
         }
 
         public async Task<string> AddOrUpdateImage(UserImageRequestModel userImageRequestModel)
@@ -101,7 +96,8 @@ namespace UsersTBC.Application.Services.Repository
                 UploadedFile(null,userImageRequestModel.file, out fileName, out filePath);
                 userImage.DocumentName = fileName;
                 userImage.DocumentPath = filePath;
-                await _userImageRepository.AddAsync(userImage);
+                await _unitOfWork.UserImageRepository.AddAsync(userImage);
+                await _unitOfWork.SaveChangesAsync();
                 return ResultStatus.SUCCESS;
             }
             else
@@ -110,7 +106,8 @@ namespace UsersTBC.Application.Services.Repository
                 UploadedFile(null, userImageRequestModel.file, out fileName, out filePath);
                 userImage.DocumentName = fileName;
                 userImage.DocumentPath = filePath;
-                await _userImageRepository.UpdateAsync(userImage);
+                _unitOfWork.UserImageRepository.Update(userImage);
+                await _unitOfWork.SaveChangesAsync();
                 return ResultStatus.SUCCESS;
             }
            
@@ -122,12 +119,14 @@ namespace UsersTBC.Application.Services.Repository
             var userRelated = _mapper.Map<UseRelated>(userRelatedRequestModel);
             if (userRelated.Id == 0)
             {
-                await _userRelatedRepository.AddAsync(userRelated);
+                await _unitOfWork.UserRelatedRepository.AddAsync(userRelated);
+                await _unitOfWork.SaveChangesAsync();
                 return ResultStatus.SUCCESS;
             }
             else
             {
-                await _userRelatedRepository.UpdateAsync(userRelated);
+                _unitOfWork.UserRelatedRepository.Update(userRelated);
+                await _unitOfWork.SaveChangesAsync();
                 return ResultStatus.SUCCESS;
             }
            
@@ -148,7 +147,8 @@ namespace UsersTBC.Application.Services.Repository
                     userImage.DocumentPath = filePath;
                     userImage.DocumentName = fileName;
                     userImage.UserId = userId;
-                    await _userImageRepository.AddAsync(userImage);
+                    await _unitOfWork.UserImageRepository.AddAsync(userImage);
+                    await _unitOfWork.SaveChangesAsync();
                 }
             }
             
@@ -157,34 +157,35 @@ namespace UsersTBC.Application.Services.Repository
         public async Task<string> RemoveUser(int userId)
         {
            
-            await _userImageRepository.RemoveRangeAsync(await _userImageRepository.FindAll(x => x.UserId == userId));
-            await _userMobileRepository.RemoveRangeAsync(await _userMobileRepository.FindAll(x => x.UserId == userId));
-            await _userRelatedRepository.RemoveRangeAsync(await _userRelatedRepository.FindAll(x => x.UserId == userId));
-            await _userRepository.DeleteAsync(await _userRepository.First(x => x.Id == userId));
+             _unitOfWork.UserImageRepository.RemoveRange(await _unitOfWork.UserImageRepository.FindAll(x => x.UserId == userId));
+             _unitOfWork.UserMobileRepository.RemoveRange(await _unitOfWork.UserMobileRepository.FindAll(x => x.UserId == userId));
+             _unitOfWork.UserRelatedRepository.RemoveRange(await _unitOfWork.UserRelatedRepository.FindAll(x => x.UserId == userId));
+             _unitOfWork.UserRepository.Delete(await _unitOfWork.UserRepository.First(x => x.Id == userId));
+            await _unitOfWork.SaveChangesAsync();
             return ResultStatus.SUCCESS;
 
 
         }
         public async Task<UserResponseModel> GetUser(int userId)
         {
-            var user = await _userRepository.GetUser(userId);
+            var user = await _unitOfWork.UserRepository.GetUser(userId);
             if (user == null)
             {
-                throw new AppException("User not found");
+                throw new AppException(_localizer["UserNotFound"]);
             }
             var userModel = _mapper.Map<UserResponseModel>(user);
-            userModel.UserMobileNumbers = _mapper.Map<List<UserMobileNumberModel>>(await _userMobileRepository.FindAll(x => x.UserId == userId));
-            userModel.Images = _mapper.Map<List<UserImagesResponseModel>>(await _userImageRepository.FindAll(x => x.UserId == userId));
-            userModel.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(await _userRepository.GetRelatedUsersByUserId(userId));
+            userModel.UserMobileNumbers = _mapper.Map<List<UserMobileNumberModel>>(await _unitOfWork.UserMobileRepository.FindAll(x => x.UserId == userId));
+            userModel.Images = _mapper.Map<List<UserImagesResponseModel>>(await _unitOfWork.UserImageRepository.FindAll(x => x.UserId == userId));
+            userModel.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(await _unitOfWork.UserRepository.GetRelatedUsersByUserId(userId));
 
             return userModel;
         }
 
 
-        public async Task<List<UserResponseModel>> UsersWithRelatedPersons(RelatedType relatedTypeId)
+        public async Task<List<UserResponseModel>> UsersWithRelatedPersons(RelatedTypeEnum relatedTypeId)
         {
             var usersModel = new List<UserResponseModel>();
-            var users = await _userRepository.UsersWithRelatedPersons(relatedTypeId);
+            var users = await _unitOfWork.UserRepository.UsersWithRelatedPersons(relatedTypeId);
             if(users.Count == 0)
             {
                 throw new AppException("Not Exist Relate Type Users");
@@ -203,7 +204,7 @@ namespace UsersTBC.Application.Services.Repository
         public async Task<GetAllWithPaging<UserModel, PaginationFilterQuickSeach>> SearchQuick(string searchString, int PageNumber, int PageSize)
         {
             var validFilter = new PaginationFilterQuickSeach(searchString,PageNumber, PageSize);
-            var users =await _userRepository.SearchQuick(searchString);
+            var users =await _unitOfWork.UserRepository.SearchQuick(searchString);
             var usersModel = _mapper.Map<List<UserModel>>(users);
             var totalRecords = usersModel.Count();
             var pagedData = usersModel
@@ -217,7 +218,7 @@ namespace UsersTBC.Application.Services.Repository
         {
             var validFilter = new PaginationFilterDetailSearch(paginationFilterDetailSearch);
             var userSearch = _mapper.Map<User>(paginationFilterDetailSearch.Search);
-            var users = await _userRepository.SearchDetail(userSearch);
+            var users = await _unitOfWork.UserRepository.SearchDetail(userSearch);
             var usersModel = _mapper.Map<IEnumerable<UserModel>>(users);
             var totalRecords = usersModel.Count();
             var pagedData = usersModel

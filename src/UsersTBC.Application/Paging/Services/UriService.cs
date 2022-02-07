@@ -56,11 +56,11 @@ namespace UsersTBC.Application.Paging.Services
             {
                 modifiedUri = QueryHelpers.AddQueryString(modifiedUri, nameof(filter.Search) + "." + nameof(filter.Search.BirthDate), filter.Search.BirthDate.ToString());
             }
-            if (filter.Search?.Gender != null)
+            if (filter.Search?.Genders != null)
             {
-                if (Enum.IsDefined(typeof(Gender), filter.Search.Gender))
+                if (Enum.IsDefined(typeof(GenderEnum), filter.Search.Genders))
                 {
-                    modifiedUri = QueryHelpers.AddQueryString(modifiedUri, nameof(filter.Search) + "." + nameof(filter.Search.Gender), filter.Search.Gender.ToString());
+                    modifiedUri = QueryHelpers.AddQueryString(modifiedUri, nameof(filter.Search) + "." + nameof(filter.Search.Genders), filter.Search.Genders.ToString());
                 }
 
             }

@@ -8,8 +8,9 @@ namespace UsersTBC.Application.Models
     public class UserRelatedResponseModel
     {
         public int RelatedUserId { get; set; }
+        public int RelatedUserId1111 { get; set; }
         public UserModel RelatedUser { get; set; }
-        public RelatedType RelatedType { get; set; }
+        public RelatedTypeEnum RelatedType { get; set; }
 
     }
 }

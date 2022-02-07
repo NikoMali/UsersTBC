@@ -10,7 +10,10 @@ namespace UsersTBC.Domain.Entities
         public string Name { get; set; }
         public string Code { get; set; }
         public string IsActive { get; set; }
-        public List<City_Translation> City_Translations { get; set; }
+
+
+        private readonly List<City_Translation> city_Translations = new List<City_Translation>();
+        public IReadOnlyCollection<City_Translation> City_Translations => city_Translations.AsReadOnly();
 
 
     }

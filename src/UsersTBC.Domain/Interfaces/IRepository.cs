@@ -16,11 +16,11 @@ namespace UsersTBC.Domain.Interfaces
         Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken = default);
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
         Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
-        Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
-        Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-        Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+        void Update(T entity, CancellationToken cancellationToken = default);
+        void UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+        void Delete(T entity, CancellationToken cancellationToken = default);
         Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-        Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+        void RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default);
         Task<int> CountAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
         Task<T> FirstAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
         Task<T> FirstOrDefaultAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);

@@ -10,7 +10,7 @@ namespace UsersTBC.Application.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int RelatedUserId { get; set; }
-        public RelatedType RelatedType { get; set; }
+        public int RelatedTypeId { get; set; }
 
     }
 }

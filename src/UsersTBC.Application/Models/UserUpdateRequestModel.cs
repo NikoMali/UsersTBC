@@ -12,8 +12,8 @@ namespace UsersTBC.Application.Models
         public string LastName { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        [EnumDataType(typeof(Gender), ErrorMessage = "type value doesn't exist within enum")]
-        public Gender Gender { get; set; }
+        [EnumDataType(typeof(GenderEnum), ErrorMessage = "type value doesn't exist within enum")]
+        public GenderEnum Gender { get; set; }
         public int CityId { get; set; }
         public List<UserMobileNumberRequestModel> UserMobileNumbers { get; set; }
 

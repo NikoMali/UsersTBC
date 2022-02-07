@@ -15,7 +15,9 @@ namespace UsersTBC.Insfrastructure.StartUpExtensions
                 
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Users TBC");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Users TBC v1");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Users TBC v2");
+
                 });
             }
 

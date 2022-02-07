@@ -35,7 +35,7 @@
             Validate is method response entity exists attribute as Action Filter
             </summary>
         </member>
-        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.UsersWithRelatedPersons(UsersTBC.Domain.Enums.RelatedType)">
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersController.UsersWithRelatedPersons(System.Int32)">
             <summary>
             Report User And Related User by Related Type 
             And Generic Report pdf format file
@@ -49,6 +49,11 @@
         <member name="M:UsersTBC.WebAPI.Controllers.UsersController.SearchDetail(UsersTBC.Application.Filter.PaginationFilterDetailSearch)">
             <summary>
             Search Detail User by All Field with paging
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersControllerV2.CreateUser(UsersTBC.Application.Models.UserRequestModel)">
+            <summary>
+            Create User
             </summary>
         </member>
     </members>

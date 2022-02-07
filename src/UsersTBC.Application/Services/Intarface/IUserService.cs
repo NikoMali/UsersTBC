@@ -20,7 +20,7 @@ namespace UsersTBC.Application.Services.Intarface
         Task<string> AddOrUpdateUserRelated(UserRelatedRequestModel userRelatedRequestModel);
         Task<string> RemoveUser(int userId);
         Task<UserResponseModel> GetUser(int userId);
-        Task<List<UserResponseModel>> UsersWithRelatedPersons(RelatedType relatedTypeId);
+        Task<List<UserResponseModel>> UsersWithRelatedPersons(RelatedTypeEnum relatedTypeId);
         Task<GetAllWithPaging<UserModel, PaginationFilterQuickSeach>> SearchQuick(string searchString, int PageNumber, int PageSize);
         Task<GetAllWithPaging<UserModel, PaginationFilterDetailSearch>> SearchDetail(PaginationFilterDetailSearch paginationFilterDetailSearch);
        

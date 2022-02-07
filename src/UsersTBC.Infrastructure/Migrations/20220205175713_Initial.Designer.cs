@@ -10,8 +10,8 @@ using UsersTBC.Insfrastructure.Helpers;
 namespace UsersTBC.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210329002434_seed")]
-    partial class seed
+    [Migration("20220205175713_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,18 +48,18 @@ namespace UsersTBC.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1566),
+                            CreateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(4969),
                             IsActive = "true",
                             Name = "Tbilisi",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1583)
+                            UpdateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(4980)
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1630),
+                            CreateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(5034),
                             IsActive = "true",
                             Name = "Khashuri",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(1632)
+                            UpdateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(5036)
                         });
                 });
 
@@ -98,19 +98,62 @@ namespace UsersTBC.Infrastructure.Migrations
                         {
                             Id = 1,
                             CityId = 1,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4605),
+                            CreateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(8178),
                             LanguageId = 2,
                             NameTranslate = "თბილისი",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4614)
+                            UpdateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(8188)
                         },
                         new
                         {
                             Id = 2,
                             CityId = 3,
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4669),
+                            CreateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(8265),
                             LanguageId = 2,
                             NameTranslate = "ხაშური",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 681, DateTimeKind.Local).AddTicks(4670)
+                            UpdateDate = new DateTime(2022, 2, 5, 21, 57, 12, 776, DateTimeKind.Local).AddTicks(8267)
+                        });
+                });
+
+            modelBuilder.Entity("UsersTBC.Domain.Entities.Gender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Male",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Female",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -145,17 +188,127 @@ namespace UsersTBC.Infrastructure.Migrations
                         {
                             Id = 1,
                             Code = "en-US",
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 678, DateTimeKind.Local).AddTicks(4170),
+                            CreateDate = new DateTime(2022, 2, 5, 21, 57, 12, 775, DateTimeKind.Local).AddTicks(706),
                             Name = "English",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 679, DateTimeKind.Local).AddTicks(1605)
+                            UpdateDate = new DateTime(2022, 2, 5, 21, 57, 12, 775, DateTimeKind.Local).AddTicks(8668)
                         },
                         new
                         {
                             Id = 2,
                             Code = "ka-GE",
-                            CreateDate = new DateTime(2021, 3, 29, 4, 24, 33, 679, DateTimeKind.Local).AddTicks(2378),
+                            CreateDate = new DateTime(2022, 2, 5, 21, 57, 12, 775, DateTimeKind.Local).AddTicks(9647),
                             Name = "Georgia",
-                            UpdateDate = new DateTime(2021, 3, 29, 4, 24, 33, 679, DateTimeKind.Local).AddTicks(2385)
+                            UpdateDate = new DateTime(2022, 2, 5, 21, 57, 12, 775, DateTimeKind.Local).AddTicks(9658)
+                        });
+                });
+
+            modelBuilder.Entity("UsersTBC.Domain.Entities.MobileNumberType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MobileNumberTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Mobile",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Office",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Home",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("UsersTBC.Domain.Entities.RelatedType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RelatedTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Colleague",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Acquaintance",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Relative",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Other",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -169,7 +322,7 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RelatedType")
+                    b.Property<int>("RelatedTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("RelatedUserId")
@@ -178,10 +331,12 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RelatedTypeId");
 
                     b.HasIndex("RelatedUserId");
 
@@ -209,7 +364,7 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
+                    b.Property<int>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -224,6 +379,8 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("GenderId");
 
                     b.ToTable("Users");
                 });
@@ -267,11 +424,11 @@ namespace UsersTBC.Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("MobileNumberTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -281,6 +438,8 @@ namespace UsersTBC.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MobileNumberTypeId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("UserMobileNumbers");
@@ -288,40 +447,38 @@ namespace UsersTBC.Infrastructure.Migrations
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.City_Translation", b =>
                 {
-                    b.HasOne("UsersTBC.Domain.Entities.City", "City")
+                    b.HasOne("UsersTBC.Domain.Entities.City", null)
                         .WithMany("City_Translations")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UsersTBC.Domain.Entities.Language", "Language")
+                    b.HasOne("UsersTBC.Domain.Entities.Language", null)
                         .WithMany("City_Translations")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.UseRelated", b =>
                 {
-                    b.HasOne("UsersTBC.Domain.Entities.User", "RelatedUser")
+                    b.HasOne("UsersTBC.Domain.Entities.RelatedType", "RelatedType")
+                        .WithMany()
+                        .HasForeignKey("RelatedTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersTBC.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("RelatedUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UsersTBC.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("UsersTBC.Domain.Entities.User", null)
+                        .WithMany("useRelateds")
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("RelatedUser");
-
-                    b.Navigation("User");
+                    b.Navigation("RelatedType");
                 });
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.User", b =>
@@ -332,13 +489,21 @@ namespace UsersTBC.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("UsersTBC.Domain.Entities.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("City");
+
+                    b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.UserImage", b =>
                 {
                     b.HasOne("UsersTBC.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("userImages")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -348,11 +513,19 @@ namespace UsersTBC.Infrastructure.Migrations
 
             modelBuilder.Entity("UsersTBC.Domain.Entities.UserMobileNumber", b =>
                 {
-                    b.HasOne("UsersTBC.Domain.Entities.User", "User")
+                    b.HasOne("UsersTBC.Domain.Entities.MobileNumberType", "MobileNumberType")
                         .WithMany()
+                        .HasForeignKey("MobileNumberTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UsersTBC.Domain.Entities.User", "User")
+                        .WithMany("UserMobileNumbers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("MobileNumberType");
 
                     b.Navigation("User");
                 });
@@ -367,6 +540,15 @@ namespace UsersTBC.Infrastructure.Migrations
             modelBuilder.Entity("UsersTBC.Domain.Entities.Language", b =>
                 {
                     b.Navigation("City_Translations");
+                });
+
+            modelBuilder.Entity("UsersTBC.Domain.Entities.User", b =>
+                {
+                    b.Navigation("useRelateds");
+
+                    b.Navigation("userImages");
+
+                    b.Navigation("UserMobileNumbers");
                 });
 #pragma warning restore 612, 618
         }

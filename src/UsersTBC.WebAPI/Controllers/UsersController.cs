@@ -20,7 +20,8 @@ using UsersTBC.WebAPI.Helpers;
 namespace UsersTBC.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
@@ -91,7 +92,7 @@ namespace UsersTBC.WebAPI.Controllers
         public async Task<IActionResult> GetUser(int Id)
         {
             var result = await _userService.GetUser(Id);
-            var k = Gender.Male.GetDescription();
+            
             return Ok(new GenericResponseWithData<UserResponseModel>(result,true));
         }
         /// <summary>
@@ -99,10 +100,10 @@ namespace UsersTBC.WebAPI.Controllers
         /// And Generic Report pdf format file
         /// </summary>
         [HttpGet("WithRelatedPersons/{RelatedTypeId}")]
-        public async Task<IActionResult> UsersWithRelatedPersons(RelatedType RelatedTypeId)
+        public async Task<IActionResult> UsersWithRelatedPersons(int RelatedTypeId)
         {
             var route = Request.Path.Value;
-            var result = await _userService.UsersWithRelatedPersons(RelatedTypeId);
+            var result = await _userService.UsersWithRelatedPersons((RelatedTypeEnum)RelatedTypeId);
             var reportPath = ReportUsersWithRelatedPerson.ReportUsers(_web,_uriService.GetBaseUrl(), result);
             return Ok(new GenericResponseWithDataList<UserResponseModel>(result,true,"ReportPdfPathView: " + reportPath));
         }

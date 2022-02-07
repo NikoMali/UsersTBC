@@ -47,37 +47,37 @@ namespace UsersTBC.Insfrastructure.Repository
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
             await _dbContext.Set<T>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
 
             return entity;
         }
 
-        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        public void Update(T entity, CancellationToken cancellationToken = default)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
         }
-        public async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public void UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             _dbContext.Set<T>().UpdateRange(entities);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+        public void Delete(T entity, CancellationToken cancellationToken = default)
         {
             _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
         }
         public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             await _dbContext.Set<T>().AddRangeAsync(entities);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public void RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             _dbContext.Set<T>().RemoveRange(entities);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            //await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<T> FirstAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)

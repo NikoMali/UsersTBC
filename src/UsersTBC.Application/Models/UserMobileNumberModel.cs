@@ -8,8 +8,8 @@ namespace UsersTBC.Application.Models
 {
     public class UserMobileNumberModel
     {
-        [EnumDataType(typeof(Gender), ErrorMessage = "type value doesn't exist within enum")]
-        public MobileNumberType Type { get; set; }
+        [EnumDataType(typeof(MobileNumberTypeEnum), ErrorMessage = "type value doesn't exist within enum")]
+        public int MobileNumberTypeId { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 4, ErrorMessage = "This not valid Number 4-50 range")]
