@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using UsersTBC.Infrastructure.Data;
 using UsersTBC.Infrastructure.Helpers;
 
 namespace UsersTBC.Infrastructure.Migrations

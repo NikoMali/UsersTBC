@@ -36,11 +36,14 @@ namespace ProductTermsControl.WebAPI.StartUpExtensions
                     c.DocumentFilter<SwaggerEnumDocumentFilter>();
                     //c.OperationFilter<AddFileParamTypesOperationFilter>();
 
+
                     var xmlPath = $@"{env.ContentRootPath}/UsersTBC.WebAPI.xml";
                     
                     c.IncludeXmlComments(xmlPath);
                     
                 });
+
+
             }
 
             return services;

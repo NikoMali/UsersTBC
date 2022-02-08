@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using UsersTBC.Domain;
 using UsersTBC.Domain.Localize;
+using UsersTBC.Infrastructure.Data;
 using UsersTBC.Infrastructure.Helpers;
 
 namespace UsersTBC.Infrastructure.Helpers

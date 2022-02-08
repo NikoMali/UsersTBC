@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UsersTBC.Domain.Enums;
 using System;
 using System.Threading;
+using UsersTBC.Infrastructure.Data;
 
 namespace UsersTBC.Infrastructure.Repository
 {

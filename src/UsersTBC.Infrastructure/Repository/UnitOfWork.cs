@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Interfaces;
+using UsersTBC.Infrastructure.Data;
 using UsersTBC.Infrastructure.Helpers;
 using UsersTBC.Infrastructure.Repository;
 

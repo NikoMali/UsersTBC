@@ -8,6 +8,7 @@ using Ardalis.Specification.EntityFrameworkCore;
 using Ardalis.Specification;
 using System.Threading;
 using System;
+using UsersTBC.Infrastructure.Data;
 
 namespace UsersTBC.Infrastructure.Repository
 {

@@ -15,6 +15,7 @@ using UsersTBC.WebAPI.StartUpExtensions;
 using ProductTermsControl.WebAPI.StartUpExtensions;
 using UsersTBC.WebAPI.Helpers;
 using UsersTBC.Application.Middleware;
+using UsersTBC.Infrastructure.Data;
 
 namespace UsersTBC.WebAPI
 {
@@ -37,7 +38,9 @@ namespace UsersTBC.WebAPI
             services.AddApplication();
             services.AddInfrastructure(_configuration);
 
-            services.AddControllers();
+            services.AddControllers(o=> {
+                o.Conventions.Add(new ControllerDocumentationConvention());
+            });
             
             services.AddHttpContextAccessor();
 

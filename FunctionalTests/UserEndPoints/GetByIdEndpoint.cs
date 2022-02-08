@@ -23,7 +23,7 @@ namespace FunctionalTests.UserEndPoints
         public HttpClient Client { get; }
 
         [Fact]
-        public async Task ReturnsItemGivenValidId()
+        public async Task ReturnsUserById()
         {
             
             var response = await Client.GetAsync("/v1/Users/8");
@@ -32,8 +32,8 @@ namespace FunctionalTests.UserEndPoints
             var k = new GenericResponseWithData<UserResponseModel>();
             var model = JsonSerializer.Deserialize<UserResponseTest> (stringResponse, _jsonOptions);
 
-            Assert.NotEqual("", k3);
-            //Assert.Equal("string", model.data.FirstName);
+            //Assert.NotEqual("", k3);
+            Assert.Equal("string", model.data.FirstName);
         }
 
       

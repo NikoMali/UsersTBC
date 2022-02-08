@@ -53,7 +53,13 @@
         </member>
         <member name="M:UsersTBC.WebAPI.Controllers.UsersControllerV2.CreateUser(UsersTBC.Application.Models.UserRequestModel)">
             <summary>
-            Create User
+            Create User with Mediatr
+            </summary>
+        </member>
+        <member name="M:UsersTBC.WebAPI.Controllers.UsersControllerV2.GetUser(System.Int32)">
+            <summary>
+            Get User Full Info with Mediatr
+            Validate is method response entity exists attribute as Action Filter
             </summary>
         </member>
     </members>

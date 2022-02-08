@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using System.Linq;
+using UsersTBC.Infrastructure.Logging;
+using UsersTBC.Infrastructure.Data;
 
 namespace UsersTBC.Infrastructure
 {
@@ -25,9 +27,10 @@ namespace UsersTBC.Infrastructure
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 
 
-            
+
             services.AddSingleton<IUriService>(o =>
             {
                 var accessor = o.GetRequiredService<IHttpContextAccessor>();
