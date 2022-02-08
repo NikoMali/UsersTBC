@@ -1,7 +1,7 @@
 using AutoMapper;
 using UsersTBC.Application.Models;
 using UsersTBC.Domain.Entities;
-using UsersTBC.Domain.HelperModel;
+using UsersTBC.Domain.Model;
 
 namespace ProductTermsControl.WebAPI.Helpers
 {

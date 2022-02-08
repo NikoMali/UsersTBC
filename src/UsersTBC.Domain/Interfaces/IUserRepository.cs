@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Enums;
-using UsersTBC.Domain.HelperModel;
+using UsersTBC.Domain.Model;
 
 namespace UsersTBC.Domain.Interfaces
 {

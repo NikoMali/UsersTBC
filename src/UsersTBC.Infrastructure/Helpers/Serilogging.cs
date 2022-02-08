@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UsersTBC.Insfrastructure.Helpers
+namespace UsersTBC.Infrastructure.Helpers
 {
     public static class Serilogging
     {

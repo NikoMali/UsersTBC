@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UsersTBC.Domain.Interfaces;
-using UsersTBC.Insfrastructure.Helpers;
+using UsersTBC.Infrastructure.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using Ardalis.Specification;
 using System.Threading;
 using System;
 
-namespace UsersTBC.Insfrastructure.Repository
+namespace UsersTBC.Infrastructure.Repository
 {
     public class Repository<T> : IRepository<T>
         where T : class

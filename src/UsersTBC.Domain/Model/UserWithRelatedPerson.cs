@@ -4,7 +4,7 @@ using System.Text;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Enums;
 
-namespace UsersTBC.Domain.HelperModel
+namespace UsersTBC.Domain.Model
 {
     public class UserWithRelatedPerson
     {

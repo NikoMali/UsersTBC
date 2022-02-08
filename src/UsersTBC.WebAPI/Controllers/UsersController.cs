@@ -121,8 +121,8 @@ namespace UsersTBC.WebAPI.Controllers
         /// <summary>
         /// Search Detail User by All Field with paging
         /// </summary>
-        [HttpGet("SearchDetail")]
-        public async Task<IActionResult> SearchDetail([FromQuery] PaginationFilterDetailSearch filter)
+        [HttpPost("SearchDetail")]
+        public async Task<IActionResult> SearchDetail([FromBody] PaginationFilterDetailSearch filter)
         {
             var route = Request.Path.Value;
             var model = await _userService.SearchDetail(filter);

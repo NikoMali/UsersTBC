@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Enums;
-using UsersTBC.Domain.HelperModel;
+using UsersTBC.Domain.Model;
 
 namespace UsersTBC.Application.Models
 {

@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using UsersTBC.Application.Helpers;
 
-namespace UsersTBC.Infrastructure.Middleware
+namespace UsersTBC.Application.Middleware
 {
     public class ErrorHandlerMiddleware
     {

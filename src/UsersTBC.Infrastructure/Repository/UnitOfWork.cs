@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using UsersTBC.Application.Services.Intarface;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Domain.Interfaces;
-using UsersTBC.Insfrastructure.Helpers;
-using UsersTBC.Insfrastructure.Repository;
+using UsersTBC.Infrastructure.Helpers;
+using UsersTBC.Infrastructure.Repository;
 
 namespace UsersTBC.Infrastructure.Repository
 {

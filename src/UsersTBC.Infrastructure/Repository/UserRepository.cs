@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using UsersTBC.Domain.Entities;
-using UsersTBC.Domain.HelperModel;
+using UsersTBC.Domain.Model;
 using UsersTBC.Domain.Interfaces;
-using UsersTBC.Insfrastructure.Helpers;
+using UsersTBC.Infrastructure.Helpers;
 using System.Linq;
 using System.Collections.Generic;
 using UsersTBC.Domain.Enums;
 using System;
 using System.Threading;
 
-namespace UsersTBC.Insfrastructure.Repository
+namespace UsersTBC.Infrastructure.Repository
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
@@ -65,7 +65,13 @@ namespace UsersTBC.Insfrastructure.Repository
                         from URu in U_URu.DefaultIfEmpty()
                         where UR?.RelatedTypeId == (int)id
                         group new { UR, U, URu } by new { UR.UserId } into URg
-                        select new UserWithRelatedPerson(URg.FirstOrDefault().U, URg.Select(urg => urg.UR));
+                        select new UserWithRelatedPerson(URg.FirstOrDefault().U, 
+                        URg.Select(urg => new UseRelated 
+                        { 
+                            RelatedTypeId =  urg.UR.RelatedTypeId,
+                            RelatedType = urg.UR.RelatedType,
+                            RelatedUser = urg.URu
+                        } ));
 
             return Task.FromResult(Users.Take(10).ToList());
 

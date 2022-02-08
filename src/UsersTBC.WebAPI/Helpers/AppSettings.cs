@@ -1,4 +1,4 @@
-namespace UsersTBC.Insfrastructure.Helpers
+namespace UsersTBC.WebAPI.Helpers
 {
     public class AppSettings
     {

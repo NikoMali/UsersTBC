@@ -12,7 +12,7 @@ namespace UsersTBC.Application.Models
         public int RelatedUserId { get; set; }
 
         [EnumDataType(typeof(RelatedTypeEnum), ErrorMessage = "type value doesn't exist within enum")]
-        public RelatedTypeEnum RelatedType { get; set; }
+        public int RelatedTypeId { get; set; }
 
     }
 }

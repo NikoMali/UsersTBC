@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace UsersTBC.Infrastructure.Middleware
+namespace UsersTBC.Application.Middleware
 {
     public class AcceptLanguageHttpHeader
     {

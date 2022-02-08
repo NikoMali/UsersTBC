@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UsersTBC.Infrastructure.Helpers
+namespace UsersTBC.WebAPI.Helpers
 {
     public class SwaggerEnumDocumentFilter : IDocumentFilter
     {

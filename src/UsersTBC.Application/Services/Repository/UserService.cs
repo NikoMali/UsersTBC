@@ -16,6 +16,7 @@ using UsersTBC.Application.Helpers;
 using Microsoft.Extensions.Localization;
 using UsersTBC.Domain.Localize;
 using Microsoft.Extensions.Caching.Memory;
+using Serilog;
 
 namespace UsersTBC.Application.Services.Repository
 {
@@ -26,6 +27,7 @@ namespace UsersTBC.Application.Services.Repository
         private IMapper _mapper;
         private readonly IStringLocalizer<Resource> _localizer;
         private readonly IMemoryCache _memoryCache;
+
 
 
         public UserService(
@@ -52,6 +54,7 @@ namespace UsersTBC.Application.Services.Repository
 
         public async Task<string> Create(UserRequestModel userRequestModel)
         {
+            Log.Information("Start Create: {request}",userRequestModel.PersonalNumber);
             var user = _mapper.Map<User>(userRequestModel);
             var mobileNumber = _mapper.Map<List<UserMobileNumber>>(userRequestModel.UserMobileNumbers);
             var images = _mapper.Map<List<UserImage>>(userRequestModel.Images);
@@ -65,17 +68,18 @@ namespace UsersTBC.Application.Services.Repository
                 mobileNumber.ForEach(x => x.AssignedUserId(user.Id));
                 mobileNumber.ForEach(x => _userMobileRepository.AddAsync(x));
             }
+            */
 
-           
 
             if (userRelateds.Count > 0)
             {
                 userRelateds.ForEach(x => x.AssignedUserId(user.Id));
-                userRelateds.ForEach(x => _userRelatedRepository.AddAsync(x));
+                userRelateds.ForEach(x => _unitOfWork.UserRelatedRepository.AddAsync(x));
             }
 
-            await UserSaveImages(userRequestModel.Images, user.Id);*/
-            
+            await UserSaveImages(userRequestModel.Images, user.Id);
+            Log.Information("End Create: {request}", userRequestModel.PersonalNumber);
+
             return ResultStatus.SUCCESS;
         }
 
@@ -210,8 +214,9 @@ namespace UsersTBC.Application.Services.Repository
             if(users.Count == 0)
             {
                 throw new AppException("Not Exist Relate Type Users");
-            } 
-
+            }
+            //var user = _mapper.Map<UserResponseModel>(users[0]);
+            //user.userRelateds = _mapper.Map<List<UserRelatedResponseModel>>(users[0].useRelateds);
             users.ForEach(x =>
             {
                 var user = _mapper.Map<UserResponseModel>(x);

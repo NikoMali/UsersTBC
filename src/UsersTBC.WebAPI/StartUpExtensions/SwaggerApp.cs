@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace UsersTBC.Insfrastructure.StartUpExtensions
+namespace UsersTBC.WebAPI.StartUpExtensions
 {
     public static class SwaggerApp
     {

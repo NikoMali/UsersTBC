@@ -1,18 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Linq;
 using UsersTBC.Domain;
-using UsersTBC.Insfrastructure.Helpers;
+using UsersTBC.Domain.Localize;
+using UsersTBC.Infrastructure.Helpers;
 
 namespace UsersTBC.Infrastructure.Helpers
 {
     public class ValidateEntityExistsAttribute<T> : IActionFilter where T : class, IEntity
     {
+        private readonly IStringLocalizer<Resource> _localizer;
         private readonly DataContext _context;
-        public ValidateEntityExistsAttribute(DataContext context)
+        public ValidateEntityExistsAttribute(
+            DataContext context,
+            IStringLocalizer<Resource> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
         public void OnActionExecuting(ActionExecutingContext context)
         {
@@ -29,7 +35,8 @@ namespace UsersTBC.Infrastructure.Helpers
             var entity = _context.Set<T>().SingleOrDefault(x => x.Id.Equals(id));
             if (entity == null)
             {
-                context.Result = new NotFoundResult();
+                
+                context.Result = new OkObjectResult(new { result = _localizer["NotFound"].Value });
             }
             else
             {

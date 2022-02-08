@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using UsersTBC.Domain.Entities;
 using UsersTBC.Infrastructure.Extensions;
 
-namespace UsersTBC.Insfrastructure.Helpers
+namespace UsersTBC.Infrastructure.Helpers
 {
     public class DataContext : DbContext, IApplicationDbContext
     {

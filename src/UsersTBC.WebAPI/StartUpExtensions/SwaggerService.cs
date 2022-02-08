@@ -8,8 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UsersTBC.Infrastructure.Helpers;
+using UsersTBC.WebAPI.Helpers;
 
-namespace ProductTermsControl.Insfrastructure.StartUpExtensions
+namespace ProductTermsControl.WebAPI.StartUpExtensions
 {
     public static class SwaggerService
     {
