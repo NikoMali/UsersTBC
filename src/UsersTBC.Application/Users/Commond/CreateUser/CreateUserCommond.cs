@@ -52,18 +52,20 @@ namespace UsersTBC.Application.Users.Commond.CreateUser
                 mobileNumber.ForEach(x => _userMobileRepository.AddAsync(x));
             }
 
-           
+           */
 
             if (userRelateds.Count > 0)
             {
                 userRelateds.ForEach(x => x.AssignedUserId(user.Id));
-                userRelateds.ForEach(x => _userRelatedRepository.AddAsync(x));
+                userRelateds.ForEach(x => _unitOfWork.UserRelatedRepository.AddAsync(x));
             }
 
-            await UserSaveImages(userRequestModel.Images, user.Id);*/
+            //await UserSaveImages(request.UserRequestModel.Images, user.Id);
 
             return ResultStatus.SUCCESS;
 
         }
+
+
     }
 }

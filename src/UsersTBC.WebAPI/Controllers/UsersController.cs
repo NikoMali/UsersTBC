@@ -77,7 +77,7 @@ namespace UsersTBC.WebAPI.Controllers
         /// <summary>
         /// Delete User
         /// </summary>
-        [HttpDelete("User/{userId}")]
+        [HttpDelete("{userId}")]
         public async Task<IActionResult> UserDelete(int userId)
         {
             var result = await _userService.RemoveUser(userId);
